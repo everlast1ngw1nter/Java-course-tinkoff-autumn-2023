@@ -16,9 +16,9 @@ public final class Task5 {
     }
 
     private static boolean isPalindrome(final long number) {
-        char[] chars = ("" + number).toCharArray();
-        for (var i = 0; i < chars.length / 2; i++) {
-            if (chars[i] != chars[chars.length - 1 - i]) {
+        String stringNumber = Long.toString(number);
+        for (var i = 0; i < stringNumber.length() / 2; i++) {
+            if (stringNumber.charAt(i) != stringNumber.charAt(stringNumber.length() - 1 - i)) {
                 return false;
             }
         }

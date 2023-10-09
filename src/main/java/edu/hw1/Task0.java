@@ -9,8 +9,7 @@ public final class Task0 {
 
     private final static Logger LOGGER = LogManager.getLogger();
 
-    @SuppressWarnings("UncommentedMain")
-    public static void main(final String[] args) {
+    public static void helloWorld(final String[] args) {
         LOGGER.info("Привет, мир!");
     }
 }
