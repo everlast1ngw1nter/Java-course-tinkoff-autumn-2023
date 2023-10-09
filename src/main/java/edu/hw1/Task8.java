@@ -5,6 +5,10 @@ public final class Task8 {
     }
 
     private final static int LEN = 8;
+    private final static int[][] MOVES = new int[][] {
+            {1, 2}, {2, 1}, {-1, 2}, {2, -1},
+            {1, -2}, {-2, 1}, {-1, -2}, {-2, -1}
+    };
 
     public static boolean knightBoardCapture(final int[][] board)
             throws IllegalArgumentException {
@@ -25,11 +29,7 @@ public final class Task8 {
     private static boolean isKnightCapture(final int[][] board,
                                            final int i,
                                            final int j) {
-        final int[][] moves = new int[][] {
-                {1, 2}, {2, 1}, {-1, 2}, {2, -1},
-                {1, -2}, {-2, 1}, {-1, -2}, {-2, -1}
-        };
-        for (int[] move : moves) {
+        for (int[] move : MOVES) {
             int newI = i + move[0];
             int newJ = j + move[1];
             if (inBounds(newI, newJ) && board[newI][newJ] == 1) {
