@@ -4,18 +4,23 @@ public final class Task6 {
     private Task6() {
     }
 
+    private final static int NUMBER_DIGIT = 4;
+    private final static int END_NUMBER = 6174;
+    private final static int DIGITS_COUNT = 10;
+
+    @SuppressWarnings("MagicNumber")
     public static int countK(final long number)
             throws IllegalArgumentException {
-        final int numberDigit = 4;
-        if (number < 0 | Task2.countDigits(number) != numberDigit) {
+        if (number < 0 | Task2.countDigits(number) != NUMBER_DIGIT
+                | number == 1000 | number % 1111 == 0) {
             throw new IllegalArgumentException();
         }
         return countK(number, 0);
     }
 
     private static int countK(final long number, final int depth) {
-        final int endNumber = 6174;
-        if (number == endNumber) {
+
+        if (number == END_NUMBER) {
             return depth;
         }
         int[] digitsPositions = getDigitsPositions(number);
@@ -25,9 +30,8 @@ public final class Task6 {
     }
 
     private static int[] getDigitsPositions(final long number) {
-        final int digitsCount = 10;
         String temp = Long.toString(number);
-        int[] digits = new int[digitsCount];
+        int[] digits = new int[DIGITS_COUNT];
         for (int i = 0; i < temp.length(); i++) {
             digits[temp.charAt(i) - '0'] += 1;
         }
@@ -36,7 +40,6 @@ public final class Task6 {
 
     @SuppressWarnings("ModifiedControlVariable")
     private static long getMaxNumber(final int[] digitsPositions) {
-        final int digitsCount = 10;
         long maxNumber = 0;
         int currDigitCounter = 0;
         for (int i = digitsPositions.length - 1; i > -1; i--) {
@@ -45,7 +48,7 @@ public final class Task6 {
                 continue;
             }
             currDigitCounter += 1;
-            maxNumber = maxNumber * digitsCount + i;
+            maxNumber = maxNumber * DIGITS_COUNT + i;
             i++;
         }
         return maxNumber;
@@ -53,16 +56,15 @@ public final class Task6 {
 
     @SuppressWarnings("ModifiedControlVariable")
     private static long getMinNumber(final int[] digitsPositions) {
-        final int digitsCount = 10;
         long minNumber = 0;
         int currDigitCounter = 0;
-        for (int i = 0; i < digitsCount; i++) {
+        for (int i = 0; i < DIGITS_COUNT; i++) {
             if (digitsPositions[i] == currDigitCounter) {
                 currDigitCounter = 0;
                 continue;
             }
             currDigitCounter++;
-            minNumber = minNumber * digitsCount + i;
+            minNumber = minNumber * DIGITS_COUNT + i;
             i--;
         }
         return minNumber;

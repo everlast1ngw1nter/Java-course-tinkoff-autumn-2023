@@ -4,12 +4,13 @@ public final class Task2 {
     private Task2() {
     }
 
+    private final static int DIGITS_COUNT = 10;
+
     public static int countDigits(final long number) {
-        final int digitsCount = 10;
         long absNumber = Math.abs(number);
         int counter = 0;
         do {
-            absNumber /= digitsCount;
+            absNumber /= DIGITS_COUNT;
             counter++;
         } while (absNumber != 0);
         return counter;

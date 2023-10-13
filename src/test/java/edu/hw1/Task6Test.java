@@ -18,6 +18,21 @@ public class Task6Test {
     }
 
     @Test
+    void countK1000Input() {
+        assertThrows(IllegalArgumentException.class, () -> Task6.countK(1000));
+    }
+
+    @Test
+    void countKAllDigitsSame1() {
+        assertThrows(IllegalArgumentException.class, () -> Task6.countK(1111));
+    }
+
+    @Test
+    void countKAllDigitsSame2() {
+        assertThrows(IllegalArgumentException.class, () -> Task6.countK(5555));
+    }
+
+    @Test
     void isNotFourDigit() {
         assertThrows(IllegalArgumentException.class, () -> Task6.countK(617));
     }

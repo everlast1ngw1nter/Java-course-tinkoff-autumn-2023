@@ -11,11 +11,7 @@ class Task2Test {
     }
 
     @Test
-    void positiveNumbers() {
-        assertThat(Task2.countDigits((123)))
-            .isEqualTo(3);
-        assertThat(Task2.countDigits((412512)))
-            .isEqualTo(6);
+    void positiveNumbers1() {
         assertThat(Task2.countDigits((9)))
             .isEqualTo(1);
         assertThat(Task2.countDigits((10)))
@@ -23,14 +19,26 @@ class Task2Test {
     }
 
     @Test
-    void negativeNumbers() {
-        assertThat(Task2.countDigits((-123)))
-            .isEqualTo(3);
+    void positiveNumbers2() {
+        assertThat(Task2.countDigits((123)))
+                .isEqualTo(3);
+        assertThat(Task2.countDigits((412512)))
+                .isEqualTo(6);
+    }
+
+    @Test
+    void negativeNumbers1() {
         assertThat(Task2.countDigits((-5)))
             .isEqualTo(1);
-        assertThat(Task2.countDigits((-99999)))
-            .isEqualTo(5);
         assertThat(Task2.countDigits((-10)))
             .isEqualTo(2);
+    }
+
+    @Test
+    void negativeNumbers2() {
+        assertThat(Task2.countDigits((-123)))
+                .isEqualTo(3);
+        assertThat(Task2.countDigits((-99999)))
+                .isEqualTo(5);
     }
 }
