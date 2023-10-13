@@ -4,8 +4,8 @@ import java.util.Random;
 
 public class WordDict implements Dictionary {
 
-    private final static String[] WORDS = {"hangman", "java", "backend", "tinkoff"};
-    private final static Random RND = new Random();
+    private static final String[] WORDS = {"hangman", "java", "backend", "tinkoff"};
+    private static final Random RND = new Random();
 
     public String getWord() {
         int rndNumber = RND.nextInt(WORDS.length);

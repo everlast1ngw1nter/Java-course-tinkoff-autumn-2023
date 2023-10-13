@@ -7,9 +7,9 @@ public class HangmanData {
 
     static SessionInformation sessionInfo;
 
-    final static int POSSIBLE_MISTAKES = 5;
+    static final int POSSIBLE_MISTAKES = 5;
 
-    public static boolean checkGameStarted() {
+    public static boolean isGameStarted() {
         return !(sessionInfo == null);
     }
 

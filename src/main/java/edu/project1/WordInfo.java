@@ -1,34 +1,29 @@
 package edu.project1;
 
+import java.util.Arrays;
 import java.util.HashSet;
 
 public class WordInfo implements WordInformation {
     private final String word;
 
-    private final HashSet<Character> wordLetters;
+    private final char[] mask;
 
     public WordInfo(Dictionary dict) {
         word = dict.getWord();
-        wordLetters = getLettersSet();
+        mask = new char[word.length()];
+        Arrays.fill(mask, '*');
     }
 
     public String getMask(HashSet<Character> chars) {
-        char[] arrayMask = word.toCharArray();
         for (int i = 0; i < word.length(); i++) {
-            arrayMask[i] = (chars.contains(arrayMask[i])) ? arrayMask[i] : '*';
+            if (chars.contains(word.charAt(i))) {
+                mask[i] = word.charAt(i);
+            }
         }
-        return String.valueOf(arrayMask);
-    }
-
-    private HashSet<Character> getLettersSet() {
-        HashSet<Character> set = new HashSet<>();
-        for (char c : word.toCharArray()) {
-            set.add(c);
-        }
-        return set;
+        return String.valueOf(mask);
     }
 
     public boolean isInWord(char letter) {
-        return wordLetters.contains(letter);
+        return word.contains(String.valueOf(letter));
     }
 }
