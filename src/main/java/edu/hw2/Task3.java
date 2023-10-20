@@ -40,14 +40,14 @@ public class Task3 {
     public static class FaultyConnection implements Connection {
         @Override
         public void execute(String command) {
+            if (getRandomBool()) {
+                throw new ConnectionException();
+            }
             LOGGER.info("FaultyConnection executed");
         }
 
         @Override
         public void close() throws ConnectionException {
-            if (getRandomBool()) {
-                throw new ConnectionException();
-            }
             LOGGER.info("FaultyConnection closed");
         }
     }
@@ -90,18 +90,23 @@ public class Task3 {
             this.maxAttempts = maxAttempts;
         }
 
-        public void updatePackages() {
+        public void updatePackages() throws Exception {
             tryExecute("apt update && apt upgrade -y");
         }
 
-        void tryExecute(String command) {
-            try (Connection connection = manager.getConnection()) {
-                for (int i = 0; i < maxAttempts; i++) {
+        void tryExecute(String command) throws Exception {
+            Connection connection = manager.getConnection();
+            for (int i = 0; i < maxAttempts; i++) {
+                try {
                     connection.execute(command);
+                    break;
+                } catch (Exception exception) {
+                    if (maxAttempts == i + 1) {
+                        throw new ConnectionException(exception.getCause());
+                    }
                 }
-            } catch (Exception exception) {
-                throw new ConnectionException(exception.getCause());
             }
+            connection.close();
         }
     }
 }

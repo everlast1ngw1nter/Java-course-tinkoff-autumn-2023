@@ -23,6 +23,12 @@ public class Task1 {
         }
 
         record Exponent(Expr expr, double pow) implements Expr {
+            /*
+             Конструктор с двумя Expr нужен, чтобы обрабатывать случаи типа
+             Constant two = new Constant(2);
+             Constant four = new Constant(4);
+             double sixteen = new Exponent(two, four).evaluate();
+            */
             public Exponent(Expr expr1, Expr expr2) {
                 this(expr1, expr2.evaluate());
             }
