@@ -5,13 +5,17 @@ import java.awt.Point;
 import java.util.ArrayList;
 import java.util.Random;
 
-public class DiggerGenerator implements MazeGenerator {
+public class DiggerGenerator implements  MazeGenerator {
 
     private final int height;
 
     private final int width;
 
     private final int[][] maze;
+
+    private final Cell start = new Cell(0, 0, CellType.EMPTY);
+
+    private final Cell end;
 
     private final ArrayList<Digger> diggers = new ArrayList<Digger>();
 
@@ -29,19 +33,42 @@ public class DiggerGenerator implements MazeGenerator {
         this.width = width;
         maze = new int[height][width];
         rnd = new Random();
+        end =  new Cell(height, width, CellType.EMPTY);
     }
 
-    public int[][] getMaze() {
-        maze[0][0] = 1;
+    public Maze generateMaze() {
+        initMaze();
+        maze[0][0] = 0;
         for (int i = 0; i < height * width; i++) {
             if (i % Math.min(height, width) / 2 == 0) {
                 diggers.add(new Digger(lastPoint.x, lastPoint.y));
             }
             dig(maze);
         }
-        return maze;
+        return convertToMaze();
     }
 
+    private void initMaze() {
+        for (int i = 0; i < height; i++) {
+            for (int j = 0; j < width; j++) {
+                maze[i][j] = 1;
+            }
+        }
+    }
+
+    private Maze convertToMaze() {
+        var cellMaze = new Cell[height][width];
+        for (int i = 0; i < height; i++) {
+            for (int j = 0; j < width; j++) {
+                cellMaze[i][j] = switch (maze[i][j]) {
+                    case 0 -> new Cell(i, j, CellType.EMPTY);
+                    case 1 -> new Cell(i, j, CellType.WALL);
+                    default -> throw new IllegalArgumentException();
+                };
+            }
+        }
+        return new Maze(cellMaze, start, end, height, width);
+    }
 
     private boolean isSeparated(Point p, Point diggerPos) {
         for (Point dir : DIRECTIONS) {
@@ -49,7 +76,7 @@ public class DiggerGenerator implements MazeGenerator {
             if (!isInBounds(currentPoint)) {
                 continue;
             }
-            if (maze[currentPoint.x][currentPoint.y] == 1 && !currentPoint.equals(diggerPos)) {
+            if (maze[currentPoint.x][currentPoint.y] == 0 && !currentPoint.equals(diggerPos)) {
                 return false;
             }
         }
@@ -79,7 +106,7 @@ public class DiggerGenerator implements MazeGenerator {
             }
             lastPoint = availableCells.get(rnd.nextInt(availableCells.size()));
             digger.move(lastPoint);
-            maze[lastPoint.x][lastPoint.y] = 1;
+            maze[lastPoint.x][lastPoint.y] = 0;
         }
     }
 
