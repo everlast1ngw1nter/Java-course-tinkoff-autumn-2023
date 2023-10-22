@@ -32,13 +32,13 @@ public class Task2Mutable {
         }
 
         @Override
-        void setWidth(int width) throws NoSuchMethodException {
-            throw new NoSuchMethodException();
+        void setWidth(int width) {
+            setSide(width);
         }
 
         @Override
-        void setHeight(int height) throws NoSuchMethodException {
-            throw new NoSuchMethodException();
+        void setHeight(int height) {
+            setSide(height);
         }
 
         void setSide(int side) {
