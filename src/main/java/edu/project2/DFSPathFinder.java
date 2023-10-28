@@ -74,7 +74,7 @@ public class DFSPathFinder implements PathFinder{
     }
 
     private boolean isInBounds(Point p) {
-        return p.x < maze.width()&& p.x > -1
-                && p.y < maze.height() && p.y > -1;
+        return p.x < maze.height() && p.x > -1
+                && p.y < maze.width() && p.y > -1;
     }
 }

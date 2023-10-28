@@ -28,7 +28,7 @@ public class BFSPathFinder  implements PathFinder{
     private boolean findPath() {
         var visited = new HashSet<Cell>();
         var queue = new ArrayDeque<Cell>();
-        queue.add(maze.start());
+        queue.push(maze.start());
         while (!queue.isEmpty())
         {
             var node = queue.poll();

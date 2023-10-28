@@ -5,13 +5,15 @@ import java.util.Arrays;
 public class Main {
 
     public static void main(String[] args) {
-        var b = new BinaryTreeGenerator(9, 13).generateMaze();
-        for (var x : b.grid()) {
-            System.out.println(Arrays.toString(x));
-        }
-        var pathFinder = new BFSPathFinder(b);
-        var isFound = pathFinder.getPath();
-        var consolePrint = new PrettyConsolePrint(b, isFound);
-        consolePrint.print();
+        var maze = new BinaryTreeGenerator(15, 13).generateMaze();
+        var bfsPathFinder = new BFSPathFinder(maze).getPath();
+        var consolePrint1 = new PrettyConsolePrint(maze, bfsPathFinder);
+        consolePrint1.print();
+
+        System.out.println();
+//
+//        var dfsPathFinder = new DFSPathFinder(maze).getPath();
+//        var consolePrint2 = new PrettyConsolePrint(maze, dfsPathFinder);
+//        consolePrint2.print();
     }
 }
