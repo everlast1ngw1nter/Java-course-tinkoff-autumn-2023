@@ -37,20 +37,16 @@ public class BinaryTreeGenerator implements MazeGenerator {
             if (width - 1 - i < 0) {
                 continue;
             }
-            if (maze[height - 1][width - 1 - i] == 0) {
-                if (end == null) {
-                    end = new Cell(height - 1, width - 1 - i, CellType.EMPTY);
-                }
+            if (maze[height - 1][width - 1 - i] == 0 && end == null) {
+                end = new Cell(height - 1, width - 1 - i, CellType.EMPTY);
             }
         }
         for (int i = 0; i < width; i++) {
             if (height - 1 - i < 0) {
                 continue;
             }
-            if (maze[height - 1 - i][width - 1] == 0) {
-                if (end == null) {
-                    end = new Cell(height - 1 - i, width - 1, CellType.EMPTY);
-                }
+            if (maze[height - 1 - i][width - 1] == 0 && end == null) {
+                end = new Cell(height - 1 - i, width - 1, CellType.EMPTY);
             }
         }
     }
