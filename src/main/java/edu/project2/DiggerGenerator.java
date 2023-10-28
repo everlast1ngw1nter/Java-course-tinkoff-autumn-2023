@@ -33,7 +33,7 @@ public class DiggerGenerator implements  MazeGenerator {
         this.width = width;
         maze = new int[height][width];
         rnd = new Random();
-        end =  new Cell(height, width, CellType.EMPTY);
+        end =  new Cell(height - 1, width - 1, CellType.EMPTY);
     }
 
     public Maze generateMaze() {
@@ -88,8 +88,8 @@ public class DiggerGenerator implements  MazeGenerator {
     }
 
     private boolean isInBounds(Point p) {
-        return p.x < width && p.x > -1
-               && p.y < height && p.y > -1;
+        return p.x < height && p.x > -1
+               && p.y < width && p.y > -1;
     }
 
     private void dig(int[][] maze) {

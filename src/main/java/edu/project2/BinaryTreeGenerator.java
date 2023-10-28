@@ -20,7 +20,7 @@ public class BinaryTreeGenerator implements MazeGenerator {
     public BinaryTreeGenerator(int width, int height) {
         this.width = width;
         this.height = height;
-        this.maze = new int[width][height];
+        this.maze = new int[height][width];
         this.random = new Random();
     }
 
@@ -34,13 +34,23 @@ public class BinaryTreeGenerator implements MazeGenerator {
 
     private void getEndCell() {
         for (int i = 0; i < height; i++) {
-            if (maze[height - 1][width - 1 - i ] == 0) {
-                end = new Cell(height, width - i, CellType.EMPTY);
+            if (width - 1 - i < 0) {
+                continue;
+            }
+            if (maze[height - 1][width - 1 - i] == 0) {
+                if (end == null) {
+                    end = new Cell(height - 1, width - 1 - i, CellType.EMPTY);
+                }
             }
         }
         for (int i = 0; i < width; i++) {
+            if (height - 1 - i < 0) {
+                continue;
+            }
             if (maze[height - 1 - i][width - 1] == 0) {
-                end = new Cell(height - i, width, CellType.EMPTY);
+                if (end == null) {
+                    end = new Cell(height - 1 - i, width - 1, CellType.EMPTY);
+                }
             }
         }
     }
@@ -62,7 +72,7 @@ public class BinaryTreeGenerator implements MazeGenerator {
     public Maze generateMaze() {
         initMaze();
         maze[0][0] = 0;
-        for (int i = height; i > 0; i = i - 2) {
+        for (int i = height - 1; i > 0; i = i - 2) {
             for (int j = 0; j < width; j++) {
                 var rndPoint = DIRECTIONS[random.nextInt(0, 2)];
                 var nextPoint = new Point(rndPoint.x + i, rndPoint.y + j);
@@ -78,7 +88,7 @@ public class BinaryTreeGenerator implements MazeGenerator {
     }
 
     private boolean isInBounds(Point p) {
-        return p.x < width && p.x > -1
-                && p.y < height && p.y > -1;
+        return p.x < height && p.x > -1
+                && p.y < width && p.y > -1;
     }
 }
