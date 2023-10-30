@@ -17,7 +17,7 @@ public class DiggerGenerator implements  MazeGenerator {
 
     private Cell end;
 
-    private final ArrayList<Digger> diggers = new ArrayList<Digger>();
+    private final ArrayList<Digger> diggers = new ArrayList<>();
 
     private static final Point[] DIRECTIONS = new Point[] {
             new Point(1, 0), new Point(0, 1),
@@ -129,7 +129,7 @@ public class DiggerGenerator implements  MazeGenerator {
         }
     }
 
-    private class Digger {
+    private static class Digger {
         private Point point;
 
         Digger(int row, int col) {
