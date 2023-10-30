@@ -15,7 +15,7 @@ public class DiggerGenerator implements  MazeGenerator {
 
     private final Cell start = new Cell(0, 0, CellType.EMPTY);
 
-    private final Cell end;
+    private Cell end;
 
     private final ArrayList<Digger> diggers = new ArrayList<Digger>();
 
@@ -33,7 +33,6 @@ public class DiggerGenerator implements  MazeGenerator {
         this.width = width;
         maze = new int[height][width];
         rnd = new Random();
-        end =  new Cell(height - 1, width - 1, CellType.EMPTY);
     }
 
     public Maze generateMaze() {
@@ -67,7 +66,27 @@ public class DiggerGenerator implements  MazeGenerator {
                 };
             }
         }
+        getEndCell();
         return new Maze(cellMaze, start, end, height, width);
+    }
+
+    private void getEndCell() {
+        for (int i = 0; i < height; i++) {
+            if (width - 1 - i < 0) {
+                continue;
+            }
+            if (maze[height - 1][width - 1 - i] == 0 && end == null) {
+                end = new Cell(height - 1, width - 1 - i, CellType.EMPTY);
+            }
+        }
+        for (int i = 0; i < width; i++) {
+            if (height - 1 - i < 0) {
+                continue;
+            }
+            if (maze[height - 1 - i][width - 1] == 0 && end == null) {
+                end = new Cell(height - 1 - i, width - 1, CellType.EMPTY);
+            }
+        }
     }
 
     private boolean isSeparated(Point p, Point diggerPos) {

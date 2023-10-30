@@ -7,7 +7,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Stack;
 
-public class DFSPathFinder implements PathFinder{
+public class DFSPathFinder implements PathFinder {
 
     private final Maze maze;
 
@@ -24,16 +24,19 @@ public class DFSPathFinder implements PathFinder{
     }
 
     private boolean findPath() {
+        if (maze.start().equals(maze.end())) {
+            return true;
+        }
         var visited = new HashSet<Cell>();
         var stack = new Stack<Cell>();
         stack.push(maze.start());
-        while (!stack.empty())
-        {
+        while (!stack.empty()) {
             var node = stack.pop();
-            if (visited.contains(node))
+            if (visited.contains(node)) {
                 continue;
+            }
             visited.add(node);
-            for(var incidentNode : getNeighbours(node)) {
+            for (var incidentNode : getNeighbours(node)) {
                 if (visited.contains(incidentNode)) {
                     continue;
                 }

@@ -6,10 +6,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Queue;
-import java.util.Stack;
 
-public class BFSPathFinder  implements PathFinder{
+public class BFSPathFinder  implements PathFinder {
 
     private final Maze maze;
 
@@ -26,16 +24,19 @@ public class BFSPathFinder  implements PathFinder{
     }
 
     private boolean findPath() {
+        if (maze.start().equals(maze.end())) {
+            return true;
+        }
         var visited = new HashSet<Cell>();
         var queue = new ArrayDeque<Cell>();
         queue.push(maze.start());
-        while (!queue.isEmpty())
-        {
+        while (!queue.isEmpty()) {
             var node = queue.poll();
-            if (visited.contains(node))
+            if (visited.contains(node)) {
                 continue;
+            }
             visited.add(node);
-            for(var incidentNode : getNeighbours(node)) {
+            for (var incidentNode : getNeighbours(node)) {
                 if (visited.contains(incidentNode)) {
                     continue;
                 }

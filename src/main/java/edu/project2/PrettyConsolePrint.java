@@ -1,8 +1,10 @@
 package edu.project2;
 
 import java.util.List;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
-public class PrettyConsolePrint implements  PrettyPrint{
+public class PrettyConsolePrint implements PrettyPrint {
 
     private final Maze maze;
 
@@ -14,16 +16,20 @@ public class PrettyConsolePrint implements  PrettyPrint{
 
     private static final String PATH_SYMBOL = "⚪";
 
+    private static final Logger LOGGER = LogManager.getLogger();
+
     public PrettyConsolePrint(Maze maze, List<Cell> path) {
         this.maze = maze;
         this.path = path;
     }
 
+    @SuppressWarnings("RegexpSinglelineJava")
     public void print() {
-        String bound_walls = WALL_SYMBOL.repeat(maze.width() + 2);
-        System.out.println(bound_walls);
+        String boundWalls = WALL_SYMBOL.repeat(maze.width() + 2);
+        LOGGER.info(boundWalls);
         for (var row : maze.grid()) {
-            System.out.print(WALL_SYMBOL);
+            StringBuilder builder = new StringBuilder();
+            builder.append(WALL_SYMBOL);
             for (var cell : row) {
                 var out = switch (cell.type()) {
                     case EMPTY -> EMPTY_SYMBOL;
@@ -32,11 +38,11 @@ public class PrettyConsolePrint implements  PrettyPrint{
                 if (path.contains(cell)) {
                     out = PATH_SYMBOL;
                 }
-                System.out.print(out);
+                builder.append(out);
             }
-            System.out.print(WALL_SYMBOL);
-            System.out.println();
+            builder.append(WALL_SYMBOL);
+            LOGGER.info(builder);
         }
-        System.out.print(bound_walls);
+        LOGGER.info(boundWalls);
     }
 }

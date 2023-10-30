@@ -17,7 +17,7 @@ public class BinaryTreeGenerator implements MazeGenerator {
             new Point(-1, 0), new Point(0, 1),
     };
 
-    public BinaryTreeGenerator(int width, int height) {
+    public BinaryTreeGenerator(int height, int width) {
         this.width = width;
         this.height = height;
         this.maze = new int[height][width];
