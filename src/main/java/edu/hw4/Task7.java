@@ -8,7 +8,7 @@ public class Task7 {
     }
 
     public static Animal oldestAnimal(List<Animal> animals, int place) {
-        if (animals.size() < place + 1) {
+        if (animals.size() < place + 1 || place < 0) {
             throw new IllegalArgumentException();
         }
         return animals

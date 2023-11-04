@@ -1,9 +1,11 @@
 package edu.hw4;
 
+import edu.hw1.Task8;
 import org.junit.jupiter.api.Test;
 import java.util.Arrays;
 import java.util.List;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class Task7Test {
 
@@ -28,5 +30,15 @@ class Task7Test {
         assertThat(oldestAnimal)
                 .isEqualTo(new Animal("CatOne", Animal.Type.CAT, Animal.Sex.F,
                         4, 3, 2, false));
+    }
+
+    @Test
+    void incorrectPlace1Test() {
+        assertThrows(IllegalArgumentException.class, () -> Task7.oldestAnimal(ANIMALS, 19));
+    }
+
+    @Test
+    void incorrectPlace2Test() {
+        assertThrows(IllegalArgumentException.class, () -> Task7.oldestAnimal(ANIMALS, -1));
     }
 }

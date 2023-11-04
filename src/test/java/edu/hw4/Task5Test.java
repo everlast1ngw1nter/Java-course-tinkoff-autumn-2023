@@ -2,6 +2,8 @@ package edu.hw4;
 
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -26,5 +28,11 @@ class Task5Test {
     void animalSexCounterTest() {
         Animal.Sex moreFreqSex = Task5.animalSexCounter(ANIMALS);
         assertEquals(moreFreqSex, Animal.Sex.F);
+    }
+
+    @Test
+    void noAnimalsTest() {
+        Animal.Sex moreFreqSex = Task5.animalSexCounter(new ArrayList<>());
+        assertNull(moreFreqSex);
     }
 }

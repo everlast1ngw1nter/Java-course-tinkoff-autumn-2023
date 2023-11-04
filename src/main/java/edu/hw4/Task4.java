@@ -8,13 +8,10 @@ public class Task4 {
     private Task4() {
     }
 
-    public static Animal findAnimalLargestName(List<Animal> animals) {
-        if (animals.isEmpty()) {
-            throw new IllegalArgumentException();
-        }
+    public static Animal getAnimalLargestName(List<Animal> animals) {
         return animals
                 .stream()
                 .max(Comparator.comparing((Animal x) -> x.name().length()))
-                .get();
+                .orElse(null);
     }
 }

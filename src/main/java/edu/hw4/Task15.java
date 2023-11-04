@@ -25,4 +25,3 @@ public class Task15 {
         return animalCounter;
     }
 }
-

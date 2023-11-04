@@ -17,4 +17,3 @@ public class Task16 {
                 .toList();
     }
 }
-

@@ -9,8 +9,8 @@ public class Task17 {
     }
 
     public static boolean isSpidersBytesMoreThanDogs(List<Animal> animals) {
-        Double spiderBitesFrequency = getBytesStatistic( animals, Animal.Type.SPIDER);
-        Double dogBitesFrequency = getBytesStatistic( animals, Animal.Type.DOG);
+        Double spiderBitesFrequency = getBytesStatistic(animals, Animal.Type.SPIDER);
+        Double dogBitesFrequency = getBytesStatistic(animals, Animal.Type.DOG);
         if (spiderBitesFrequency == null || dogBitesFrequency == null) {
             return false;
         }

@@ -1,10 +1,12 @@
 package edu.hw4;
 
 import org.junit.jupiter.api.Test;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class Task6Test {
 
@@ -34,5 +36,12 @@ class Task6Test {
                         4, 3, 2, false));
         assertThat(biggestWeightAnimals.get(Animal.Type.SPIDER).weight())
                 .isEqualTo(42);
+    }
+
+    @Test
+    void noAnimalsTest() {
+        List<Animal> animals = new ArrayList<>();
+        Map<Animal.Type, Animal> biggestWeightAnimals = Task6.biggestWeightAnimalsTypes(animals);
+        assertTrue(biggestWeightAnimals.isEmpty());
     }
 }
