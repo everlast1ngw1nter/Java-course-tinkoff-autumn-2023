@@ -9,13 +9,13 @@ public class Task4Test {
 
     @ParameterizedTest
     @ValueSource(strings = {"@", "@121", "%|||", "ghdgjgsjg|", "cvcv^fbf"})
-    void passwordIsCorrectTest(String password) {
+    void isPasswordCorrectTest(String password) {
         assertTrue(Task4.isPasswordCorrect(password));
     }
 
     @ParameterizedTest
     @ValueSource(strings = {"", "    ", "121", "asfsd"})
-    void passwordIsNotCorrectTest(String password) {
+    void noRequiredCharactersTest(String password) {
         assertFalse(Task4.isPasswordCorrect(password));
     }
 }

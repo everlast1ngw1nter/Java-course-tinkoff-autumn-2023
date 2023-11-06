@@ -11,6 +11,6 @@ public class Task4 {
             Pattern.compile(".*[~!@#$%^&*|].*");
 
     public static boolean isPasswordCorrect(String password) {
-        return password.matches(PASSWORD_PATTERN.pattern());
+        return PASSWORD_PATTERN.matcher(password).find();
     }
 }

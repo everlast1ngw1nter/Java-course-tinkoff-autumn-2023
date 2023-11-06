@@ -10,6 +10,6 @@ public class Task5 {
             Pattern.compile("^[А-Я]\\d{3}[А-Я]{2}\\d{3}$");
 
     public static boolean isLicensePlateNumberCorrect(String licensePlateNumber) {
-        return licensePlateNumber.matches(LICENSE_PLATE_NUMBER_PATTERN.pattern());
+        return LICENSE_PLATE_NUMBER_PATTERN.matcher(licensePlateNumber).find();
     }
 }

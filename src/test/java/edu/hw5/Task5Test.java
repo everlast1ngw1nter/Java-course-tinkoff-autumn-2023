@@ -9,13 +9,13 @@ public class Task5Test {
 
     @ParameterizedTest
     @ValueSource(strings = {"А123ВЕ777", "О777ОО177"})
-    void licensePlateNumberIsCorrectTest(String licensePlateNumber) {
+    void licensePlateNumberTest(String licensePlateNumber) {
         assertTrue(Task5.isLicensePlateNumberCorrect(licensePlateNumber));
     }
 
     @ParameterizedTest
     @ValueSource(strings = {"123АВЕ777", "А123ВГ77", "А123ВЕ7777", "a123ВЕ777"})
-    void licensePlateNumberIsNotCorrectTest(String licensePlateNumber) {
+    void incorrectLicensePlateNumberTest(String licensePlateNumber) {
         assertFalse(Task5.isLicensePlateNumberCorrect(licensePlateNumber));
     }
 }
