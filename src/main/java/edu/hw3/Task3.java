@@ -9,7 +9,7 @@ public class Task3 {
     }
 
     public static <T> Map<T, Integer> freqDict(T[] words) {
-        Map<T, Integer> dict = new HashMap<>();
+        var dict = new HashMap<T, Integer>();
         for (T word : words) {
             dict.compute(word, (key, value) -> value == null ? 1 : value + 1);
         }

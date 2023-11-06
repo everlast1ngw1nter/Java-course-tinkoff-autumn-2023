@@ -1,57 +1,43 @@
 package edu.hw3;
 
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
+import org.junit.jupiter.params.provider.ValueSource;
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Stream;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class Task2Test {
-    @Test
-    void clusterizeCorrectTest1() {
-        String str = "()()()";
-        var clusters = new String[] {"()", "()", "()"};
-        assertThat(Task2.clusterize(str))
-                .isEqualTo(clusters);
+
+    static Stream<Arguments> generateData() {
+        return Stream.of(
+                Arguments.of("()()()", Arrays.asList("()", "()", "()")),
+                Arguments.of("((()))", List.of("((()))")),
+                Arguments.of("((()))(())()()(()())",
+                        Arrays.asList("((()))", "(())", "()", "()", "(()())")),
+                Arguments.of("((())())(()(()()))", List.of("((())())", "(()(()()))"))
+        );
+    }
+    @ParameterizedTest
+    @MethodSource("generateData")
+    void clusterizeTest(String input, List<String> expected) {
+        assertThat(Task2.clusterize(input))
+                .isEqualTo(expected);
     }
 
-    @Test
-    void clusterizeCorrectTest2() {
-        String str = "((()))";
-        var clusters = new String[] {"((()))"};
-        assertThat(Task2.clusterize(str))
-                .isEqualTo(clusters);
+
+    @ParameterizedTest
+    @ValueSource(strings = {"(", "()())()", "()()()(()"})
+    void notClosedOrNotOpenedParenthesesTest(String input) {
+        assertThrows(IllegalArgumentException.class, () -> Task2.clusterize(input));
     }
 
-    @Test
-    void clusterizeCorrectTest3() {
-        String str = "((()))(())()()(()())";
-        var clusters = new String[] {"((()))", "(())", "()", "()", "(()())"};
-        assertThat(Task2.clusterize(str))
-                .isEqualTo(clusters);
-    }
-
-    @Test
-    void clusterizeCorrectTest4() {
-        String str = "((())())(()(()()))";
-        var clusters = new String[] {"((())())", "(()(()()))"};
-        assertThat(Task2.clusterize(str))
-                .isEqualTo(clusters);
-    }
-
-    @Test
-    void clusterizeIncorrectTest1() {
-        String str = "(";
-        assertThrows(IllegalArgumentException.class, () -> Task2.clusterize(str));
-    }
-
-    @Test
-    void clusterizeIncorrectTest2() {
-        String str = "()a";
-        assertThrows(IllegalArgumentException.class, () -> Task2.clusterize(str));
-    }
-
-    @Test
-    void clusterizeIncorrectTest3() {
-        String str = "()())()";
-        assertThrows(IllegalArgumentException.class, () -> Task2.clusterize(str));
+    @ParameterizedTest
+    @ValueSource(strings = {"()a", "aafa", "[]"})
+    void unidentifiedSymbolsTest(String input) {
+        assertThrows(IllegalArgumentException.class, () -> Task2.clusterize(input));
     }
 }

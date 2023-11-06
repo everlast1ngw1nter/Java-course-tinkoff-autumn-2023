@@ -7,14 +7,13 @@ public class Task4 {
 
     private static final int MIN_ARABIC = 1;
     private static final int MAX_ARABIC = 3999;
-
     private static final int MAX_ARABIC_DIGITS = 4;
 
 
     @SuppressWarnings("MagicNumber")
     public static String convertToRoman(int arabicNumber)  {
         if (arabicNumber < MIN_ARABIC || arabicNumber > MAX_ARABIC) {
-            throw new IllegalArgumentException();
+            throw new IllegalArgumentException("The Arabic number must be in the range from 1 to 3999");
         }
         int[] digits = getNumberDigits(arabicNumber);
         StringBuilder builder = new StringBuilder();
