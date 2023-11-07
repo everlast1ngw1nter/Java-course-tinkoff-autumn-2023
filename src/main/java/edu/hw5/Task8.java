@@ -9,8 +9,8 @@ public class Task8 {
     public static final Pattern ODD_LEN =
             Pattern.compile("^[0,1]([01]{2})*$");
     public static final Pattern START_ZERO_EVEN_LEN_OR_ONE_ODD_LEN =
-            Pattern.compile("^((1[01])|0)([01]{2})*$");
-    public static final Pattern NUMBER_ZEROS_IS_MULTIPLE_3 =
+            Pattern.compile("^(1|(0[01]))([01]{2})*$");
+    public static final Pattern NUMBER_ZEROS_IS_MULTIPLE_THREE =
             Pattern.compile("^1*((01*){3})*$");
     public static final Pattern NOT_11_OR_111 =
             Pattern.compile("^(?!11$|111$)[01]*$");
