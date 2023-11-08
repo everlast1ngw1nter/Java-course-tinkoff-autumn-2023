@@ -2,6 +2,7 @@ package edu.hw5;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.Duration;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -11,37 +12,26 @@ public class Task1 {
     private Task1() {
     }
 
-    private static final int MILLIS_IN_SECOND = 1000;
-
-    private static final int SECONDS_IN_MINUTE = 60;
-
-    private static final int MINUTES_IN_HOURS = 60;
-
+    private static final SimpleDateFormat TIME_PATTERN =
+            new SimpleDateFormat("yyyy-MM-dd, hh:mm", Locale.ENGLISH);
 
     public static String getAverageSessionTime(List<String> sessionsTime)
             throws ParseException {
         if (sessionsTime.isEmpty()) {
-            throw new IllegalArgumentException();
+            throw new IllegalArgumentException("Empty sessionTime list");
         }
-        long totalTime = 0L;
+        Duration totalTime = Duration.ZERO;
         for (String session : sessionsTime) {
             var bounds = session.split(" - ");
-            var timePattern = new SimpleDateFormat("yyyy-MM-dd, hh:mm", Locale.ENGLISH);
-            Date startTime = timePattern.parse(bounds[0]);
-            Date endTime = timePattern.parse(bounds[1]);
-            long differenceMillis = endTime.getTime() - startTime.getTime();
-            if (differenceMillis < 0) {
-                throw new IllegalArgumentException();
+            Date startTime = TIME_PATTERN.parse(bounds[0]);
+            Date endTime = TIME_PATTERN.parse(bounds[1]);
+            Duration currentDuration = Duration.between(startTime.toInstant(), endTime.toInstant());
+            if (currentDuration.isNegative()) {
+                throw new IllegalArgumentException("Negative time interval");
             }
-            totalTime += differenceMillis;
+            totalTime = totalTime.plus(currentDuration);
         }
-        long averageTime = totalTime / sessionsTime.size();
-        return convertMillisTohhmm(averageTime);
-    }
-
-    private static String convertMillisTohhmm(long millis) {
-        int hours = (int) (millis / (MILLIS_IN_SECOND * SECONDS_IN_MINUTE * MINUTES_IN_HOURS));
-        int minutes = (int) (millis / (MILLIS_IN_SECOND * SECONDS_IN_MINUTE) - hours * MINUTES_IN_HOURS);
-        return hours + "ч " + minutes + "м";
+        Duration averageTime = totalTime.dividedBy(sessionsTime.size());
+        return averageTime.toHours() + "ч " + averageTime.toMinutesPart() + "м";
     }
 }

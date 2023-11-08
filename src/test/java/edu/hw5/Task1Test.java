@@ -10,7 +10,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 class Task1Test {
 
     @Test
-    void getAverageSessionTimeCorrectTest()
+    void getAverageSessionTimeTest()
             throws ParseException {
         List<String> sessions = new ArrayList<>();
         sessions.add("2022-03-12, 20:20 - 2022-03-12, 23:50");
