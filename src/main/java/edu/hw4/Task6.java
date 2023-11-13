@@ -1,26 +1,21 @@
 package edu.hw4;
 
-import java.util.HashMap;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
+import java.util.function.BinaryOperator;
+import java.util.function.Function;
+import java.util.stream.Collectors;
+
 
 public class Task6 {
     private Task6() {
     }
 
     public static Map<Animal.Type, Animal> biggestWeightAnimalsTypes(List<Animal> animals) {
-        Map<Animal.Type, Animal> animalCounter = new HashMap<>();
-        animals
-                .forEach(x -> {
-                    if (animalCounter.containsKey(x.type())) {
-                        if (animalCounter.get(x.type()).weight() < x.weight()) {
-                            animalCounter.put(x.type(), x);
-                        }
-
-                    } else {
-                        animalCounter.put(x.type(), x);
-                    }
-                });
-        return animalCounter;
+        return animals
+                .stream()
+                .collect(Collectors.toMap(Animal::type, Function.identity(),
+                        BinaryOperator.maxBy(Comparator.comparing(Animal::weight))));
     }
 }

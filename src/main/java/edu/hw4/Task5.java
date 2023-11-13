@@ -19,7 +19,7 @@ public class Task5 {
                 .entrySet()
                 .stream()
                 .max(Map.Entry.comparingByValue())
-                .get()
+                .orElseThrow(() -> new IllegalArgumentException("No animals of any sex"))
                 .getKey();
     }
 }

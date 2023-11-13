@@ -2,6 +2,7 @@ package edu.hw4;
 
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import java.util.Arrays;
 import java.util.List;
 
@@ -20,11 +21,16 @@ class Task2Test {
 
     @Test
     void sortByWeightDescTest() {
-        List<Animal> sortedAnimals = Task2.sortByWeightDesc(ANIMALS);
-        List<Integer> weights = Arrays.asList(42, 10, 3, 2);
-        assertEquals(sortedAnimals.size(), weights.size());
+        List<Animal> sortedAnimals = Task2.sortByWeightDesc(ANIMALS, 3);
+        List<Integer> weights = Arrays.asList(42, 10, 3);
+        assertEquals(sortedAnimals.size(), 3);
         for (int i = 0; i < sortedAnimals.size(); i++) {
             assertEquals(sortedAnimals.get(i).weight(), weights.get(i));
         }
+    }
+
+    @Test
+    void takeNegativeTest() {
+        assertThrows(IllegalArgumentException.class, () -> Task2.sortByWeightDesc(ANIMALS, -2));
     }
 }

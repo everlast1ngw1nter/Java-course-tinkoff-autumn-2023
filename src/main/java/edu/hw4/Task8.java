@@ -11,7 +11,7 @@ public class Task8 {
     public static Optional<Animal> findHeaviestAnimalBelowWeight(List<Animal> animals, int boundHeight) {
         return animals
                 .stream()
-                .filter((Animal x) -> x.height() < boundHeight)
+                .filter(x -> x.height() < boundHeight)
                 .max(Comparator.comparing(Animal::weight));
     }
 }

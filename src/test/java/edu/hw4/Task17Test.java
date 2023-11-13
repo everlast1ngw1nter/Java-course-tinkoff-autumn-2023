@@ -1,42 +1,43 @@
 package edu.hw4;
 
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Stream;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class Task17Test {
 
-    @Test
-    void notEnoughInfo1Test() {
-        List<Animal> animals = Arrays.asList(
-                new Animal("DogA", Animal.Type.DOG, Animal.Sex.M,
-                        6, 5, 15, true),
-                new Animal("CatOne", Animal.Type.CAT, Animal.Sex.F,
-                        4, 423, 2, false));
-        boolean spidersBytesMoreThanDogs = Task17.isSpidersBytesMoreThanDogs(animals);
-        assertFalse(spidersBytesMoreThanDogs);
+    static Stream<Arguments> generateData() {
+        return Stream.of(
+                Arguments.of(
+                        Arrays.asList(
+                        new Animal("DogA", Animal.Type.DOG, Animal.Sex.M,
+                                6, 5, 15, true),
+                        new Animal("CatOne", Animal.Type.CAT, Animal.Sex.F,
+                                4, 423, 2, false))),
+                Arguments.of(
+                        Arrays.asList(
+                        new Animal("SpiderA", Animal.Type.SPIDER, Animal.Sex.M,
+                                6, 5, 15, true),
+                        new Animal("CatOne", Animal.Type.CAT, Animal.Sex.F,
+                                4, 423, 2, false))),
+                Arguments.of(
+                        Arrays.asList(
+                        new Animal("BirdOne", Animal.Type.BIRD, Animal.Sex.M,
+                                6, 5, 15, true),
+                        new Animal("CatOne", Animal.Type.CAT, Animal.Sex.F,
+                                4, 423, 2, false)))
+        );
     }
 
-    @Test
-    void notEnoughInfo2Test() {
-        List<Animal> animals = Arrays.asList(
-                new Animal("SpiderA", Animal.Type.SPIDER, Animal.Sex.M,
-                        6, 5, 15, true),
-                new Animal("CatOne", Animal.Type.CAT, Animal.Sex.F,
-                        4, 423, 2, false));
-        boolean spidersBytesMoreThanDogs = Task17.isSpidersBytesMoreThanDogs(animals);
-        assertFalse(spidersBytesMoreThanDogs);
-    }
-
-    @Test
-    void notEnoughInfo3Test() {
-        List<Animal> animals = Arrays.asList(
-                new Animal("BirdOne", Animal.Type.BIRD, Animal.Sex.M,
-                        6, 5, 15, true),
-                new Animal("CatOne", Animal.Type.CAT, Animal.Sex.F,
-                        4, 423, 2, false));
+    @ParameterizedTest
+    @MethodSource("generateData")
+    void notEnoughInfoTest(List<Animal> animals) {
         boolean spidersBytesMoreThanDogs = Task17.isSpidersBytesMoreThanDogs(animals);
         assertFalse(spidersBytesMoreThanDogs);
     }

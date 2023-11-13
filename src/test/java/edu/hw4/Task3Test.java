@@ -26,7 +26,7 @@ class Task3Test {
 
     @Test
     void countAnimalByTypeTest() {
-        Map<Animal.Type, Integer> countedAnimals = Task3.countAnimalByType(ANIMALS);
+        Map<Animal.Type, Long> countedAnimals = Task3.countAnimalByType(ANIMALS);
         assertEquals(countedAnimals.get(Animal.Type.CAT), 1);
         assertEquals(countedAnimals.get(Animal.Type.DOG), 3);
         assertEquals(countedAnimals.get(Animal.Type.SPIDER), 2);

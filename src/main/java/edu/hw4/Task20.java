@@ -1,9 +1,8 @@
 package edu.hw4;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
+import java.util.stream.Collectors;
 
 public class Task20 {
 
@@ -11,10 +10,9 @@ public class Task20 {
     }
 
     public static Map<String, String> findRecordsErrorString(List<Animal> animals) {
-        Map<String, Set<Task19.ValidationError>> animalRecordErrors = Task19.findRecordsError(animals);
-        final Map<String, String> animalRecordErrorsString = new HashMap<>();
-        animalRecordErrors
-                .forEach((key, value) -> animalRecordErrorsString.put(key, String.valueOf(value)));
-        return animalRecordErrorsString;
+        return Task19.findRecordsError(animals)
+                .entrySet()
+                .stream()
+                .collect(Collectors.toMap(Map.Entry::getKey, entry -> entry.getValue().toString()));
     }
 }

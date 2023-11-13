@@ -9,7 +9,6 @@ public class Task9 {
     public static Integer countAllPaws(List<Animal> animals) {
         return animals
                 .stream()
-                .map(Animal::paws)
-                .reduce(0, Integer::sum);
+                .mapToInt(Animal::paws).sum();
     }
 }

@@ -8,14 +8,14 @@ public class Task7 {
     }
 
     public static Animal oldestAnimal(List<Animal> animals, int place) {
-        if (animals.size() < place + 1 || place < 0) {
-            throw new IllegalArgumentException();
+        if (place < 0) {
+            throw new IllegalArgumentException("Argument place must be not negative");
         }
         return animals
                 .stream()
                 .sorted(Comparator.comparing(Animal::age).reversed())
-                .skip(place)
+                .skip(place - 1)
                 .findFirst()
-                .get();
+                .orElseThrow(() -> new IllegalArgumentException("Not enough array elements"));
     }
 }

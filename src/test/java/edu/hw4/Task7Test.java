@@ -25,19 +25,19 @@ class Task7Test {
 
     @Test
     void oldestAnimalTest() {
-        Animal oldestAnimal = Task7.oldestAnimal(ANIMALS, 2);
+        Animal oldestAnimal = Task7.oldestAnimal(ANIMALS, 3);
         assertThat(oldestAnimal)
                 .isEqualTo(new Animal("CatOne", Animal.Type.CAT, Animal.Sex.F,
                         4, 3, 2, false));
     }
 
     @Test
-    void incorrectPlace1Test() {
+    void tooBigPlaceTest() {
         assertThrows(IllegalArgumentException.class, () -> Task7.oldestAnimal(ANIMALS, 19));
     }
 
     @Test
-    void incorrectPlace2Test() {
+    void negativePlaceTest() {
         assertThrows(IllegalArgumentException.class, () -> Task7.oldestAnimal(ANIMALS, -1));
     }
 }
