@@ -43,7 +43,7 @@ public class Task6 {
         NAN
     }
 
-    public static PortInfo isPortBusy(int portNumber) {
+    private static PortInfo isPortBusy(int portNumber) {
         try (var datagramSocket = new DatagramSocket(portNumber)){
         }
         catch (IOException e) {

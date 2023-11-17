@@ -15,34 +15,52 @@ public class Task5 {
     }
 
     public static class HackerNews {
-
         private static final Pattern titleName =
                 Pattern.compile("\"title\":\"([a-zA-Z0-9 ]*)\"");
-        public long[] hackerNewsTopStories() throws URISyntaxException, IOException, InterruptedException {
-            var request = HttpRequest.newBuilder()
-                    .uri(new URI("https://hacker-news.firebaseio.com/v0/topstories.json"))
-                    .GET()
-                    .timeout(Duration.of(10, ChronoUnit.SECONDS))
-                    .build();
-            var response = newHttpClient()
-                    .send(request, HttpResponse.BodyHandlers.ofString());
+
+        public long[] hackerNewsTopStories()
+                throws IOException, InterruptedException {
+            var uri = getURI("https://hacker-news.firebaseio.com/v0/topstories.json");
+            var request = createRequest(uri);
+            var response = getResponse(request);
             return parseStringResponseBody(response.body());
         }
 
-        public String news(long id) throws URISyntaxException, IOException, InterruptedException {
-            var request = HttpRequest.newBuilder()
-                    .uri(new URI("https://hacker-news.firebaseio.com/v0/item/" + id + ".json"))
-                    .GET()
-                    .timeout(Duration.of(10, ChronoUnit.SECONDS))
-                    .build();
-            var response = newHttpClient()
-                    .send(request, HttpResponse.BodyHandlers.ofString());
+        public String news(long id) throws IOException, InterruptedException {
+            var uri = getURI("https://hacker-news.firebaseio.com/v0/item/" + id + ".json");
+            var request = createRequest(uri);
+            var response = getResponse(request);
+            return getNewsTitle(response);
+        }
+
+        private String getNewsTitle(HttpResponse<String> response) {
             var matcher = titleName.matcher(response.body());
             if (!matcher.find()) {
                 return "";
             }
             return matcher.group(1);
+        }
 
+        private HttpResponse<String> getResponse(HttpRequest request)
+                throws IOException, InterruptedException {
+            return newHttpClient()
+                    .send(request, HttpResponse.BodyHandlers.ofString());
+        }
+
+        private URI getURI(String address) {
+            try {
+                return new URI(address);
+            } catch (URISyntaxException e) {
+                throw new IllegalArgumentException("Incorrect address");
+            }
+        }
+
+        private HttpRequest createRequest(URI uri) {
+            return HttpRequest.newBuilder()
+                        .uri(uri)
+                        .GET()
+                        .timeout(Duration.of(10, ChronoUnit.SECONDS))
+                        .build();
         }
 
         private long[] parseStringResponseBody(String body) {

@@ -5,7 +5,6 @@ import java.nio.file.DirectoryStream;
 import java.nio.file.FileSystems;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.PathMatcher;
 
 public class Task3 {
 
@@ -21,40 +20,32 @@ public class Task3 {
     public static final AbstractFilter regularFile = Files::isRegularFile;
     public static final AbstractFilter readable = Files::isReadable;
 
-
-    public static void main(String[] args) throws IOException {
-        DirectoryStream.Filter<Path> filter = regularFile
-                .and(readable)
-                .and(largerThan(100_000))
-//                .and(magicNumber(0x89, 'P', 'N', 'G'))
-                .and(globMatches("*.png"))
-                .and(regexContains("[-]"));
-
-        Path path = Path.of("C:\\Users\\haier\\Desktop\\dir1");
-        DirectoryStream<Path> dirStream =  Files.newDirectoryStream(path, filter);
-        for (var i : dirStream) {
-            var k = i;
-            var a = 1;
-        }
-        var h = 1;
-
+    public static AbstractFilter regexContains(String regex) {
+        return (path) -> path.getFileName().toString().matches(regex);
     }
 
-    private static AbstractFilter regexContains(String s) {
-        return (path) -> path.getFileName().toString().matches(s);
-    }
-
-    private static AbstractFilter globMatches(String glob) {
-        PathMatcher matcher = FileSystems.getDefault()
+    public static AbstractFilter globMatches(String glob) {
+        var matcher = FileSystems.getDefault()
                 .getPathMatcher("glob:" + glob);
         return matcher::matches;
     }
 
-    private static AbstractFilter magicNumber(int i, char p, char n, char g) {
-        return null;
+    public static AbstractFilter magicNumber(byte... args) {
+        return (path) -> {
+            var allBytes = Files.readAllBytes(path);
+            if (allBytes.length < args.length) {
+                return false;
+            }
+            for (var i = 0; i < args.length; i++) {
+                if (args[i] != allBytes[i]) {
+                    return false;
+                }
+            }
+            return true;
+        };
     }
 
-    private static AbstractFilter largerThan(int i) {
-        return (path) -> path.toFile().length() > i;
+    public static AbstractFilter largerThan(int size) {
+        return (path) -> path.toFile().length() > size;
     }
 }

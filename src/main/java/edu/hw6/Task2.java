@@ -4,7 +4,6 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.nio.channels.FileChannel;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
@@ -54,15 +53,11 @@ public class Task2 {
     }
 
     private static void copyFileUsingChannel(File source, File dest) throws IOException {
-        FileChannel sourceChannel = null;
-        FileChannel destChannel = null;
-        try {
-            sourceChannel = new FileInputStream(source).getChannel();
-            destChannel = new FileOutputStream(dest).getChannel();
+        try (var inputStream = new FileInputStream(source);
+             var outputStream = new FileOutputStream(dest)) {
+            var sourceChannel = inputStream.getChannel();
+            var destChannel = outputStream.getChannel();
             destChannel.transferFrom(sourceChannel, 0, sourceChannel.size());
-        } finally {
-            sourceChannel.close();
-            destChannel.close();
         }
     }
 
@@ -103,7 +98,7 @@ public class Task2 {
     }
 
     public static void main(String[] args) throws IOException {
-        for (var i = 0; i < 1000; i++) {
+        for (var i = 0; i < 10; i++) {
             cloneFile(Path.of("C:\\Users\\haier\\Desktop\\dir1\\1.txt"));
         }
     }

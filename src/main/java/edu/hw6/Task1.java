@@ -5,10 +5,12 @@ import org.jetbrains.annotations.Nullable;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.nio.file.Files;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
+import java.util.regex.Pattern;
 
 public class Task1 {
     private Task1(){
@@ -16,24 +18,39 @@ public class Task1 {
 
     public static class DiskMap implements Map<String, String> {
 
+        private static final Pattern fileStringPattern =
+                Pattern.compile("^(.*):(.*)$");
         private final Map<String, String> diskMap;
 
         private final File fileMap;
 
-        public DiskMap() throws IOException {
+        public DiskMap(File file) throws IOException {
             diskMap = new HashMap<>();
-            fileMap  = createDiskMapFile(new File("C:\\Users\\haier\\Desktop\\test.txt"));
+            fileMap  = createDiskMapFile(file);
         }
 
         private File createDiskMapFile(File file) throws IOException {
             try {
-                if (file.createNewFile() || file.isFile()) {
+                if (file.isFile()) {
+                    loadFromFile(file);
+                    return file;
+                } else if (file.createNewFile()) {
                     return file;
                 } else {
                     throw new IOException("Cant create file for DiskMap");
                 }
             } catch (IOException e) {
                 throw new IOException("Cant create file for DiskMap");
+            }
+        }
+
+        private void loadFromFile(File file) throws IOException {
+            var lines = Files.readAllLines(file.toPath());
+            for (var line : lines) {
+                var matcher = fileStringPattern.matcher(line);
+                if (matcher.find()) {
+                    diskMap.put(matcher.group(1), matcher.group(2));
+                }
             }
         }
 
@@ -79,8 +96,8 @@ public class Task1 {
                 String text = key + ":" + value + "\n";
                 writer.write(text);
             }
-            catch(IOException ex){
-                throw new IOException();
+            catch(IOException e){
+                throw new IOException(e);
             }
         }
 
@@ -116,11 +133,5 @@ public class Task1 {
         public Set<Entry<String, String>> entrySet() {
             return diskMap.entrySet();
         }
-    }
-
-    public static void main(String[] args) throws IOException {
-        var diskMap = new DiskMap();
-        diskMap.putInFile("1","2");
-        diskMap.putInFile("2","3");
     }
 }
