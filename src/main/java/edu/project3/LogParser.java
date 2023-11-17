@@ -1,5 +1,11 @@
 package edu.project3;
 
+import edu.project3.statistic.AverageAnswerCounter;
+import edu.project3.statistic.LogTotalCounter;
+import edu.project3.statistic.MostFrequentDay;
+import edu.project3.statistic.MostPopularIP;
+import edu.project3.statistic.MostRequestedResources;
+import edu.project3.statistic.PopularStatus;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -22,12 +28,29 @@ public class LogParser {
                 .build();
         var response =  newHttpClient()
                 .send(request, HttpResponse.BodyHandlers.ofInputStream());
+        var totalCounter = new LogTotalCounter();
+        var statusCounter = new PopularStatus(3);
+        var averageAnswerSize = new AverageAnswerCounter();
+        var mostRequestedResources = new MostRequestedResources(3);
+        var mostPopularIP = new MostPopularIP(3);
+        var mostFrequentDay = new MostFrequentDay();
         try (var stream = new BufferedReader(new InputStreamReader(response.body()))) {
             String log;
             while (!((log = stream.readLine()) == null)) {
                 var logInfo = LogInfo.create(log);
-                System.out.println(logInfo);
+                totalCounter.makeStatistic(logInfo);
+                statusCounter.makeStatistic(logInfo);
+                averageAnswerSize.makeStatistic(logInfo);
+                mostRequestedResources.makeStatistic(logInfo);
+                mostPopularIP.makeStatistic(logInfo);
+                mostFrequentDay.makeStatistic(logInfo);
             }
+            System.out.println(statusCounter.getStatistic());
+            System.out.println(totalCounter.getStatistic());
+            System.out.println(averageAnswerSize.getStatistic());
+            System.out.println(mostRequestedResources.getStatistic());
+            System.out.println(mostPopularIP.getStatistic());
+            System.out.println(mostFrequentDay.getStatistic());
         }
     }
 }

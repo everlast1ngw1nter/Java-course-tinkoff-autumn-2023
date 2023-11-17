@@ -10,10 +10,12 @@ public record LogInfo(String remoteAddress, String remoteUser,
                       Integer status, Long bodyBytesSent,
                       String httpReferer, String httpUserAgent) {
     private static final Pattern pattern =
-            Pattern.compile("(\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}) - (.*) \\[(\\d{2}/[A-Z][a-z]{2,8}/\\d{4}:\\d{2}:\\d{2}:\\d{2} \\+\\d{4})] \"(.*)\" (\\d{3}) (.*) \"(.*)\" \"(.*)\"");
+            Pattern.compile("(.*) - (.*) \\[(\\d{2}/[A-Z][a-z]{2,8}/\\d{4}:\\d{2}:\\d{2}:\\d{2} \\+\\d{4})] \"(.*)\" (\\d{3}) (.*) \"(.*)\" \"(.*)\"");
+
+    private static final DateTimeFormatter formatter =
+            DateTimeFormatter.ofPattern("dd/MMM/yyyy:HH:mm:ss Z", Locale.ENGLISH);
 
     private static OffsetDateTime parseOffsetDateTime(String stringDate) {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MMM/yyyy:HH:mm:ss Z", Locale.ENGLISH);
         return OffsetDateTime.parse(stringDate, formatter);
     }
 
