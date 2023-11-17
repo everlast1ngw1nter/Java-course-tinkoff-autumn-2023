@@ -40,8 +40,8 @@ public class Task3Test {
     @Test
     void magicNumberTest(@TempDir Path tempDir)
             throws IOException {
-        DirectoryStream.Filter<Path> filter = magicNumber((byte)0x89, (byte)'P',
-                (byte)'N',(byte) 'G');
+        DirectoryStream.Filter<Path> filter = magicNumber((byte) 0x89, (byte) 'P',
+                (byte) 'N', (byte) 'G');
         Path filePath1 = Path.of("src/test/java/edu/hw6/Java-Logo.png");
         Path filePath2 = tempDir.resolve("task3.txt");
         filePath2.toFile().createNewFile();

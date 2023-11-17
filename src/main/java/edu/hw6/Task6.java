@@ -29,7 +29,6 @@ public class Task6 {
                     entry(3702, "Динамическое обнаружение веб-служб"), entry(5353, "Многоадресный DNS"),
                     entry(5355, "Link-Local Multicast Name Resolution (LLMNR)"));
 
-
     @SuppressWarnings("EmptyBlock")
     private static PortInfo isPortBusy(int portNumber) {
         try (var datagramSocket = new DatagramSocket(portNumber)) {
@@ -67,7 +66,6 @@ public class Task6 {
                     + " ".repeat(appendBeforePortService - port.portNumber.toString().length()) + serviceName);
         }
     }
-
 
     public record PortInfo(Protocol protocol, boolean isBusy, Integer portNumber) {
     }

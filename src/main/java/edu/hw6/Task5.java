@@ -58,10 +58,10 @@ public class Task5 {
         @SuppressWarnings("MagicNumber")
         private HttpRequest createRequest(URI uri) {
             return HttpRequest.newBuilder()
-                        .uri(uri)
-                        .GET()
-                        .timeout(Duration.of(10, ChronoUnit.SECONDS))
-                        .build();
+                    .uri(uri)
+                    .GET()
+                    .timeout(Duration.of(10, ChronoUnit.SECONDS))
+                    .build();
         }
 
         private long[] parseStringResponseBody(String body) {

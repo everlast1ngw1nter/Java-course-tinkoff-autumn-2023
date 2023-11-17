@@ -11,8 +11,6 @@ public class Task3 {
     private Task3() {
     }
 
-
-
     public static AbstractFilter regularFile = Files::isRegularFile;
     public static AbstractFilter readable = Files::isReadable;
 
@@ -44,12 +42,12 @@ public class Task3 {
     }
 
     public static AbstractFilter largerThan(int size) {
-        return (path) -> path.toFile().length() > size;
+        return path -> path.toFile().length() > size;
     }
 
     public interface AbstractFilter extends DirectoryStream.Filter<Path> {
         default AbstractFilter and(AbstractFilter filter) {
-            return (path) -> filter.accept(path) && this.accept(path);
+            return path -> filter.accept(path) && this.accept(path);
         }
     }
 }
