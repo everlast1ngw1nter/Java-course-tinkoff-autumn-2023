@@ -15,7 +15,7 @@ public class Task5 {
     }
 
     public static class HackerNews {
-        private static final Pattern titleName =
+        private static final Pattern TITLE_NAME =
                 Pattern.compile("\"title\":\"([a-zA-Z0-9 ]*)\"");
 
         public long[] hackerNewsTopStories()
@@ -34,7 +34,7 @@ public class Task5 {
         }
 
         private String getNewsTitle(HttpResponse<String> response) {
-            var matcher = titleName.matcher(response.body());
+            var matcher = TITLE_NAME.matcher(response.body());
             if (!matcher.find()) {
                 return "";
             }
@@ -55,6 +55,7 @@ public class Task5 {
             }
         }
 
+        @SuppressWarnings("MagicNumber")
         private HttpRequest createRequest(URI uri) {
             return HttpRequest.newBuilder()
                         .uri(uri)

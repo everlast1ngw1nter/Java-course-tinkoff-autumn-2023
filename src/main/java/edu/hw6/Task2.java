@@ -23,18 +23,19 @@ public class Task2 {
         var fileName = path.getFileName();
         var nextFileIndex = findMinNextIndex(copies);
         var newPathName = createNewFileName(fileName, nextFileIndex);
-        var fullNewPath = Path.of(path.getParent().toString(), newPathName.toString()).toFile();
+        var fullNewPath = path.getParent().resolve(newPathName).toFile();
         if (!fullNewPath.createNewFile()) {
             throw new IOException("Cant create file in current directory");
         }
         copyFileUsingChannel(path.toFile(), fullNewPath);
     }
 
+    @SuppressWarnings("MultipleStringLiterals")
     private static Path createNewFileName(Path fileName, int index) {
         var nameAndExtension = fileName.toString().split("\\.");
         var fileNameWithoutExtension = nameAndExtension[0];
         var fileExtension = nameAndExtension[1];
-        if (index == 0) {
+        if (index == 1) {
             String stringPath = fileNameWithoutExtension + " - копия." + fileExtension;
             return Path.of(stringPath);
         }
@@ -45,11 +46,11 @@ public class Task2 {
     private static int findMinNextIndex(List<Integer> indexes) {
         indexes.sort(Comparator.naturalOrder());
         for (var index = 0; index < indexes.size(); index++) {
-            if (indexes.get(index) != index) {
-                return index;
+            if (indexes.get(index) != index + 1) {
+                return index + 1;
             }
         }
-        return indexes.size();
+        return indexes.size() + 1;
     }
 
     private static void copyFileUsingChannel(File source, File dest) throws IOException {
@@ -61,6 +62,7 @@ public class Task2 {
         }
     }
 
+    @SuppressWarnings("MultipleStringLiterals")
     private static List<Integer> getAllCopies(Path path) throws IOException {
         var allCopies = new ArrayList<Integer>();
         var fileName = path.getFileName();
@@ -78,7 +80,7 @@ public class Task2 {
             }
             var copyNumber = matcher.group(1);
             if (copyNumber == null) {
-                allCopies.add(0);
+                allCopies.add(1);
             } else {
                 allCopies.add(Integer.valueOf(matcher.group(1)));
             }
@@ -94,12 +96,6 @@ public class Task2 {
                     .toList();
         } catch (IOException ex) {
             throw new IOException();
-        }
-    }
-
-    public static void main(String[] args) throws IOException {
-        for (var i = 0; i < 10; i++) {
-            cloneFile(Path.of("C:\\Users\\haier\\Desktop\\dir1\\1.txt"));
         }
     }
 }

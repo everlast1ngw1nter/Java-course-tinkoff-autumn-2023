@@ -1,33 +1,31 @@
 package edu.hw6;
 
-import java.io.IOException;
 import java.nio.file.DirectoryStream;
 import java.nio.file.FileSystems;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.regex.Pattern;
 
 public class Task3 {
 
     private Task3() {
     }
 
-    public interface AbstractFilter extends DirectoryStream.Filter<Path> {
-        default AbstractFilter and(AbstractFilter filter) {
-            return (path) -> filter.accept(path) && this.accept(path);
-        }
-    }
 
-    public static final AbstractFilter regularFile = Files::isRegularFile;
-    public static final AbstractFilter readable = Files::isReadable;
 
-    public static AbstractFilter regexContains(String regex) {
-        return (path) -> path.getFileName().toString().matches(regex);
+    public static AbstractFilter regularFile = Files::isRegularFile;
+    public static AbstractFilter readable = Files::isReadable;
+
+    public static AbstractFilter regexContains(String string) {
+        Pattern pattern = Pattern.compile(".*" + string + ".*");
+        return path -> path.toString().matches(pattern.pattern());
     }
 
     public static AbstractFilter globMatches(String glob) {
-        var matcher = FileSystems.getDefault()
+        var matcher = FileSystems
+                .getDefault()
                 .getPathMatcher("glob:" + glob);
-        return matcher::matches;
+        return path -> matcher.matches(path.getFileName());
     }
 
     public static AbstractFilter magicNumber(byte... args) {
@@ -47,5 +45,11 @@ public class Task3 {
 
     public static AbstractFilter largerThan(int size) {
         return (path) -> path.toFile().length() > size;
+    }
+
+    public interface AbstractFilter extends DirectoryStream.Filter<Path> {
+        default AbstractFilter and(AbstractFilter filter) {
+            return (path) -> filter.accept(path) && this.accept(path);
+        }
     }
 }

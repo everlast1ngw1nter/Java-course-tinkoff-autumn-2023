@@ -14,6 +14,9 @@ public class Task4 {
     private Task4() {
     }
 
+    private static final String MESSAGE =
+            "Programming is learned by writing programs. ― Brian Kernighan";
+
     public static void outputStreamComposition(File file)
             throws IOException {
         try (var outputStream = new FileOutputStream(file);
@@ -21,7 +24,7 @@ public class Task4 {
              var bufferedOutputStream = new BufferedOutputStream(checkedOutputStream);
              var outputStreamWriter = new OutputStreamWriter(bufferedOutputStream, StandardCharsets.UTF_8);
              var printWriter = new PrintWriter(outputStreamWriter)) {
-            printWriter.println("Programming is learned by writing programs. ― Brian Kernighan");
+            printWriter.println(MESSAGE);
         }
     }
 }
