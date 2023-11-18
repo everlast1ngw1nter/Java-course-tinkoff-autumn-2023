@@ -19,6 +19,8 @@ import java.util.stream.Stream;
 import static java.net.http.HttpClient.newHttpClient;
 
 public class StreamCreator {
+    private StreamCreator() {
+    }
 
     public static List<InputStream> getLogStreams(String stringPath)
             throws URISyntaxException, IOException, InterruptedException {
@@ -63,6 +65,7 @@ public class StreamCreator {
         }
     }
 
+    @SuppressWarnings("MagicNumber")
     private static InputStream getStreamFromHttp(String path)
             throws URISyntaxException, IOException, InterruptedException {
         var request = HttpRequest.newBuilder()

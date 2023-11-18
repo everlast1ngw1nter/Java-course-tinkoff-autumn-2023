@@ -9,18 +9,20 @@ public record LogInfo(String remoteAddress, String remoteUser,
                       OffsetDateTime localTime, String request,
                       Integer status, Long bodyBytesSent,
                       String httpReferer, String httpUserAgent) {
-    private static final Pattern pattern =
-            Pattern.compile("(.*) - (.*) \\[(\\d{2}/[A-Z][a-z]{2,8}/\\d{4}:\\d{2}:\\d{2}:\\d{2} \\+\\d{4})] \"(.*)\" (\\d{3}) (.*) \"(.*)\" \"(.*)\"");
+    private static final Pattern PATTERN =
+            Pattern.compile("(.*) - (.*) \\[(\\d{2}/[A-Z][a-z]{2,8}/\\d{4}:\\d{2}:\\d{2}:\\d{2}"
+                    + " \\+\\d{4})] \"(.*)\" (\\d{3}) (.*) \"(.*)\" \"(.*)\"");
 
-    private static final DateTimeFormatter formatter =
+    private static final DateTimeFormatter FORMATTER =
             DateTimeFormatter.ofPattern("dd/MMM/yyyy:HH:mm:ss Z", Locale.ENGLISH);
 
     private static OffsetDateTime parseOffsetDateTime(String stringDate) {
-        return OffsetDateTime.parse(stringDate, formatter);
+        return OffsetDateTime.parse(stringDate, FORMATTER);
     }
 
+    @SuppressWarnings("MagicNumber")
     public static LogInfo create(String log) {
-        var matcher = pattern.matcher(log);
+        var matcher = PATTERN.matcher(log);
         if (!matcher.find()) {
             return null;
         }

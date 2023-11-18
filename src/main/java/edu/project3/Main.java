@@ -21,8 +21,12 @@ import org.apache.logging.log4j.Logger;
 
 public class Main {
 
+    private Main() {
+    }
+
     private static final Logger LOGGER = LogManager.getLogger();
 
+    @SuppressWarnings("MagicNumber")
     public static void main(String[] args)
             throws URISyntaxException, IOException, InterruptedException {
         var argsInfo = new ArgsReader(args).getArgsInfo();

@@ -15,6 +15,7 @@ public class AdocReportMaker implements ReportMaker {
         this.stats = manager.getStatistic();
     }
 
+    @SuppressWarnings("MultipleStringLiterals")
     private void processTable(StatisticMaker<?> maker) {
         var stat = maker.getStatistic();
         if (stat == null) {
@@ -41,7 +42,7 @@ public class AdocReportMaker implements ReportMaker {
     public List<String> makeReport() {
         for (var elem : stats) {
             result.add("==== " + elem.mainHeader + '\n');
-            if (!elem.headers.isEmpty()){
+            if (!elem.headers.isEmpty()) {
                 processTable(elem);
             } else {
                 var stat = elem.getStatistic();

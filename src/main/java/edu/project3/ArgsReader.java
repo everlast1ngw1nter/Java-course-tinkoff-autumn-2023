@@ -12,6 +12,7 @@ public class ArgsReader {
         this.args = args;
     }
 
+    @SuppressWarnings("InnerAssignment")
     public ArgsInfo getArgsInfo() {
         String stringPath = null;
         LocalDate from = null;
@@ -23,6 +24,7 @@ public class ArgsReader {
                 case "--from" -> from = LocalDate.parse(args[i + 1], DateTimeFormatter.ISO_LOCAL_DATE);
                 case "--to" -> to = LocalDate.parse(args[i + 1], DateTimeFormatter.ISO_LOCAL_DATE);
                 case "--format" -> reportFormat = getReportFormat(args[i + 1]);
+                default -> throw new IllegalArgumentException("Incorrect argument");
             }
         }
         return new ArgsInfo(stringPath, from, to, reportFormat);

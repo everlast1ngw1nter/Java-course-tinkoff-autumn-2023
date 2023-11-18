@@ -2,10 +2,10 @@ package edu.project3.reportmaker;
 
 import edu.project3.statistic.StatisticMaker;
 import edu.project3.statistic.StatisticManager;
-import org.apache.logging.log4j.util.Strings;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import org.apache.logging.log4j.util.Strings;
 
 public class MarkdownReportMaker implements ReportMaker {
 
@@ -17,6 +17,7 @@ public class MarkdownReportMaker implements ReportMaker {
         this.stats = manager.getStatistic();
     }
 
+    @SuppressWarnings("MultipleStringLiterals")
     private void processTable(StatisticMaker<?> maker) {
         var stat = maker.getStatistic();
         if (stat == null) {
@@ -34,7 +35,7 @@ public class MarkdownReportMaker implements ReportMaker {
     public List<String> makeReport() {
         for (var elem : stats) {
             result.add("#### " + elem.mainHeader + '\n');
-            if (!elem.headers.isEmpty()){
+            if (!elem.headers.isEmpty()) {
                 processTable(elem);
             } else {
                 var stat = elem.getStatistic();

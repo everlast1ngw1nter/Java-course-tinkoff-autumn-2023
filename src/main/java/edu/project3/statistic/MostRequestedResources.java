@@ -10,11 +10,13 @@ import java.util.stream.Collectors;
 public class MostRequestedResources extends StatisticMaker<Map<String, Integer>> {
     private final int numberResources;
     private final Map<String, Integer> top;
+
     public MostRequestedResources(int numberResources) {
         super("Requested resources", List.of("Resource", "Number of requests"));
         this.top = new HashMap<>();
         this.numberResources = numberResources;
     }
+
     @Override
     public void makeStatistic(LogInfo logInfo) {
         var resource = logInfo.request().split(" ")[1];

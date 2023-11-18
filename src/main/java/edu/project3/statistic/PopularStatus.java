@@ -11,11 +11,13 @@ public class PopularStatus extends StatisticMaker<Map<Integer, Integer>> {
     private final int numberStatuses;
 
     private final Map<Integer, Integer> top;
+
     public PopularStatus(int numberStatuses) {
         super("Response Codes", List.of("Status", "Number of requests"));
         this.top = new HashMap<>();
         this.numberStatuses = numberStatuses;
     }
+
     @Override
     public void makeStatistic(LogInfo logInfo) {
         var status = logInfo.status();
