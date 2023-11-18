@@ -3,13 +3,16 @@ package edu.project3.statistic;
 import edu.project3.LogInfo;
 import java.util.Comparator;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-public class PopularStatus implements StatisticMaker {
+public class PopularStatus extends StatisticMaker<Map<Integer, Integer>> {
     private final int numberStatuses;
+
     private final Map<Integer, Integer> top;
     public PopularStatus(int numberStatuses) {
+        super("Коды ответа", List.of("Статус", "Количество запросов"));
         this.top = new HashMap<>();
         this.numberStatuses = numberStatuses;
     }

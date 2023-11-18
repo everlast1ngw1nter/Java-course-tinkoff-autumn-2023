@@ -3,13 +3,15 @@ package edu.project3.statistic;
 import edu.project3.LogInfo;
 import java.util.Comparator;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-public class MostRequestedResources implements StatisticMaker {
+public class MostRequestedResources extends StatisticMaker<Map<String, Integer>> {
     private final int numberResources;
     private final Map<String, Integer> top;
     public MostRequestedResources(int numberResources) {
+        super("Запрашиваемые ресурсы", List.of("Ресурс", "Количество запросов"));
         this.top = new HashMap<>();
         this.numberResources = numberResources;
     }

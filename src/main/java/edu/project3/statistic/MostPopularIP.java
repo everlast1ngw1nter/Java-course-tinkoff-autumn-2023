@@ -3,13 +3,15 @@ package edu.project3.statistic;
 import edu.project3.LogInfo;
 import java.util.Comparator;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-public class MostPopularIP implements StatisticMaker {
+public class MostPopularIP extends StatisticMaker<Map<String, Integer>> {
     private final int numberIP;
     private final Map<String, Integer> top;
     public MostPopularIP(int numberIP) {
+        super("Адреса IP", List.of("IP", "Количество запросов"));
         this.top = new HashMap<>();
         this.numberIP = numberIP;
     }

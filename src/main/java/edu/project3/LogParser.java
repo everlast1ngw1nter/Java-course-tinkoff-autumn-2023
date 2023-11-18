@@ -1,11 +1,13 @@
 package edu.project3;
 
+import edu.project3.converter.MarkdownConverter;
 import edu.project3.statistic.AverageAnswerCounter;
 import edu.project3.statistic.LogTotalCounter;
 import edu.project3.statistic.MostFrequentDay;
 import edu.project3.statistic.MostPopularIP;
 import edu.project3.statistic.MostRequestedResources;
 import edu.project3.statistic.PopularStatus;
+import edu.project3.statistic.StatisticManager;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -15,6 +17,7 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.time.Duration;
 import java.time.temporal.ChronoUnit;
+import java.util.List;
 import static java.net.http.HttpClient.newHttpClient;
 
 
@@ -28,29 +31,25 @@ public class LogParser {
                 .build();
         var response =  newHttpClient()
                 .send(request, HttpResponse.BodyHandlers.ofInputStream());
-        var totalCounter = new LogTotalCounter();
-        var statusCounter = new PopularStatus(3);
-        var averageAnswerSize = new AverageAnswerCounter();
-        var mostRequestedResources = new MostRequestedResources(3);
-        var mostPopularIP = new MostPopularIP(3);
-        var mostFrequentDay = new MostFrequentDay();
+        var statisticMakers = List.of(
+                new LogTotalCounter(), new PopularStatus(3),
+                new AverageAnswerCounter(), new MostRequestedResources(3),
+                new MostPopularIP(3), new MostFrequentDay());
+        var manager = new StatisticManager(statisticMakers);
         try (var stream = new BufferedReader(new InputStreamReader(response.body()))) {
             String log;
             while (!((log = stream.readLine()) == null)) {
                 var logInfo = LogInfo.create(log);
-                totalCounter.makeStatistic(logInfo);
-                statusCounter.makeStatistic(logInfo);
-                averageAnswerSize.makeStatistic(logInfo);
-                mostRequestedResources.makeStatistic(logInfo);
-                mostPopularIP.makeStatistic(logInfo);
-                mostFrequentDay.makeStatistic(logInfo);
+                manager.makeStatistic(logInfo);
             }
-            System.out.println(statusCounter.getStatistic());
-            System.out.println(totalCounter.getStatistic());
-            System.out.println(averageAnswerSize.getStatistic());
-            System.out.println(mostRequestedResources.getStatistic());
-            System.out.println(mostPopularIP.getStatistic());
-            System.out.println(mostFrequentDay.getStatistic());
+//            for (var elem : manager.getStatistic()) {
+//                System.out.println(elem.getStatistic());
+//                System.out.println(elem.headers);
+//            }
+            var md = new MarkdownConverter(manager);
+            for (var elem : md.makeReport()) {
+                System.out.println(elem);
+            }
         }
     }
 }

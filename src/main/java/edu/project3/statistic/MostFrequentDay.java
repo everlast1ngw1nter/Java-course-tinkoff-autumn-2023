@@ -3,10 +3,15 @@ package edu.project3.statistic;
 import edu.project3.LogInfo;
 import java.time.LocalDate;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
-public class MostFrequentDay implements StatisticMaker {
+public class MostFrequentDay extends StatisticMaker<LocalDate> {
     private final Map<LocalDate, Integer> top = new HashMap<>();
+
+    public MostFrequentDay() {
+        super("Самый частый день", List.of());
+    }
 
     @Override
     public void makeStatistic(LogInfo logInfo) {
