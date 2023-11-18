@@ -8,7 +8,7 @@ public class LogTotalCounter extends StatisticMaker<Long> {
     private long counter = 0;
 
     public LogTotalCounter() {
-        super("Всего запросов", List.of());
+        super("Total requests", List.of());
     }
 
     @Override

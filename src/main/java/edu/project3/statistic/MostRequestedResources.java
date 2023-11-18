@@ -11,7 +11,7 @@ public class MostRequestedResources extends StatisticMaker<Map<String, Integer>>
     private final int numberResources;
     private final Map<String, Integer> top;
     public MostRequestedResources(int numberResources) {
-        super("Запрашиваемые ресурсы", List.of("Ресурс", "Количество запросов"));
+        super("Requested resources", List.of("Resource", "Number of requests"));
         this.top = new HashMap<>();
         this.numberResources = numberResources;
     }

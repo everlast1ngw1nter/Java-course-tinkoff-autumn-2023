@@ -9,7 +9,7 @@ public class AverageAnswerCounter extends StatisticMaker<Long> {
     private long counter = 0;
 
     public AverageAnswerCounter() {
-        super("Средний размер запроса", List.of());
+        super("Average request size", List.of());
     }
 
     @Override

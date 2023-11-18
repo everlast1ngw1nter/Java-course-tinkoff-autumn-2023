@@ -11,7 +11,7 @@ public class MostPopularIP extends StatisticMaker<Map<String, Integer>> {
     private final int numberIP;
     private final Map<String, Integer> top;
     public MostPopularIP(int numberIP) {
-        super("Адреса IP", List.of("IP", "Количество запросов"));
+        super("IP addresses", List.of("IP", "Number of requests"));
         this.top = new HashMap<>();
         this.numberIP = numberIP;
     }

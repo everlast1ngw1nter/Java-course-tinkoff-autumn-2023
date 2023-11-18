@@ -12,7 +12,7 @@ public class PopularStatus extends StatisticMaker<Map<Integer, Integer>> {
 
     private final Map<Integer, Integer> top;
     public PopularStatus(int numberStatuses) {
-        super("Коды ответа", List.of("Статус", "Количество запросов"));
+        super("Response Codes", List.of("Status", "Number of requests"));
         this.top = new HashMap<>();
         this.numberStatuses = numberStatuses;
     }

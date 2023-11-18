@@ -10,7 +10,7 @@ public class MostFrequentDay extends StatisticMaker<LocalDate> {
     private final Map<LocalDate, Integer> top = new HashMap<>();
 
     public MostFrequentDay() {
-        super("Самый частый день", List.of());
+        super("The most frequent day", List.of());
     }
 
     @Override
