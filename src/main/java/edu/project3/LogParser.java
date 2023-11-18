@@ -1,6 +1,7 @@
 package edu.project3;
 
-import edu.project3.converter.MarkdownConverter;
+import edu.project3.reportmaker.AdocReportMaker;
+import edu.project3.reportmaker.MarkdownReportMaker;
 import edu.project3.statistic.AverageAnswerCounter;
 import edu.project3.statistic.LogTotalCounter;
 import edu.project3.statistic.MostFrequentDay;
@@ -42,11 +43,7 @@ public class LogParser {
                 var logInfo = LogInfo.create(log);
                 manager.makeStatistic(logInfo);
             }
-//            for (var elem : manager.getStatistic()) {
-//                System.out.println(elem.getStatistic());
-//                System.out.println(elem.headers);
-//            }
-            var md = new MarkdownConverter(manager);
+            var md = new MarkdownReportMaker(manager);
             for (var elem : md.makeReport()) {
                 System.out.println(elem);
             }
