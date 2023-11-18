@@ -15,9 +15,13 @@ import java.net.URISyntaxException;
 import java.time.LocalDate;
 import java.time.OffsetDateTime;
 import java.util.List;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 
 public class LogParser {
+
+    private static final Logger LOGGER = LogManager.getLogger();
 
     public static void main(String[] args)
             throws URISyntaxException, IOException, InterruptedException {
@@ -42,7 +46,7 @@ public class LogParser {
         }
         var maker = ReportMakerCreator.create(argsInfo.reportFormat(), manager);
         for (var elem : maker.makeReport()) {
-            System.out.println(elem);
+            LOGGER.info(elem);
         }
     }
 

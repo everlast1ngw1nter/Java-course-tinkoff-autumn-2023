@@ -13,7 +13,7 @@ public class ArgsReader {
     }
 
     public ArgsInfo getArgsInfo() {
-        String stringPath = "https://raw.githubusercontent.com/elastic/examples/master/Common%20Data%20Formats/nginx_logs/nginx_logs";
+        String stringPath = null;
         LocalDate from = null;
         LocalDate to = null;
         var reportFormat = ReportFormat.MARKDOWN;

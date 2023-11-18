@@ -18,7 +18,11 @@ public class MarkdownReportMaker implements ReportMaker {
     }
 
     private void processTable(StatisticMaker<?> maker) {
-        var resourceMap = (Map<Object, Object>) maker.getStatistic();
+        var stat = maker.getStatistic();
+        if (stat == null) {
+            return;
+        }
+        var resourceMap = (Map<Object, Object>) stat;
         result.add(String.format("| %s | %s |", maker.headers.get(0), maker.headers.get(1)));
         result.add("| ------ | ------ |");
         for (var entry : resourceMap.entrySet()) {
@@ -33,7 +37,11 @@ public class MarkdownReportMaker implements ReportMaker {
             if (!elem.headers.isEmpty()){
                 processTable(elem);
             } else {
-                result.add(elem.getStatistic().toString() + '\n');
+                var stat = elem.getStatistic();
+                if (stat == null) {
+                    continue;
+                }
+                result.add(stat.toString() + '\n');
             }
         }
         return result;

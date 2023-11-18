@@ -16,7 +16,11 @@ public class AdocReportMaker implements ReportMaker {
     }
 
     private void processTable(StatisticMaker<?> maker) {
-        var resourceMap = (Map<Object, Object>) maker.getStatistic();
+        var stat = maker.getStatistic();
+        if (stat == null) {
+            return;
+        }
+        var resourceMap = (Map<Object, Object>) stat;
         result.add("[cols=2]");
         result.add("|====");
         for (var elem : maker.headers) {
@@ -40,7 +44,11 @@ public class AdocReportMaker implements ReportMaker {
             if (!elem.headers.isEmpty()){
                 processTable(elem);
             } else {
-                result.add(elem.getStatistic().toString() + '\n');
+                var stat = elem.getStatistic();
+                if (stat == null) {
+                    continue;
+                }
+                result.add(stat .toString() + '\n');
             }
         }
         return result;
