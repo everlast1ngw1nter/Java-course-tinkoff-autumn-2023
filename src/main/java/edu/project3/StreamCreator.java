@@ -26,7 +26,7 @@ public class StreamCreator {
     }
 
     private static List<InputStream> getStreamFromDirectory(String path) {
-        var directory = Path.of(path).getParent();
+        var directory = Path.of(path);
         try (Stream<Path> paths = Files.walk(directory)) {
             return paths
                     .skip(1)
