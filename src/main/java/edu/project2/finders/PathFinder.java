@@ -20,7 +20,7 @@ public abstract class PathFinder {
     };
 
 
-    public PathFinder(Maze maze, Map<Cell, Cell> paths) {
+    protected PathFinder(Maze maze, Map<Cell, Cell> paths) {
         this.maze = maze;
         this.paths = paths;
     }
