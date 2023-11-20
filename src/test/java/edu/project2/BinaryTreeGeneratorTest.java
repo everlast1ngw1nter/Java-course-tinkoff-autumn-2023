@@ -1,5 +1,7 @@
 package edu.project2;
 
+import edu.project2.generators.BinaryTreeGenerator;
+import edu.project2.generators.MazeGenerator;
 import org.junit.jupiter.api.Test;
 import static org.assertj.core.api.Assertions.assertThat;
 

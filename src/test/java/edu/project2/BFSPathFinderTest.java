@@ -1,5 +1,7 @@
 package edu.project2;
 
+import edu.project2.finders.BFSPathFinder;
+import edu.project2.finders.PathFinder;
 import org.junit.jupiter.api.Test;
 import java.util.List;
 import static org.assertj.core.api.Assertions.assertThat;
