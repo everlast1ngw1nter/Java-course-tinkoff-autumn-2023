@@ -40,7 +40,7 @@ public class BinaryTreeGenerator extends MazeGenerator {
                 maze[nextPoint.x][nextPoint.y] = 0;
             }
         }
-        getEndCell();
+        fillEndCell();
         return convertToMaze();
     }
 }

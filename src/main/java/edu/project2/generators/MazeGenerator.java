@@ -37,11 +37,11 @@ public abstract class MazeGenerator {
                 };
             }
         }
-        getEndCell();
+        fillEndCell();
         return new Maze(cellMaze, start, end, height, width);
     }
 
-    protected void getEndCell() {
+    protected void fillEndCell() {
         for (int i = 0; i < height; i++) {
             if (width - 1 - i < 0) {
                 continue;
