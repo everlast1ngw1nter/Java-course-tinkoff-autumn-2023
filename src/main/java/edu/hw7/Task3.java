@@ -9,10 +9,6 @@ public class Task3 {
 
     public static class SynchronizedPersonDatabase extends AbstractPersonDatabase {
 
-        public SynchronizedPersonDatabase() {
-            super();
-        }
-
         @Override
         public synchronized void add(Person person) {
             super.add(person);

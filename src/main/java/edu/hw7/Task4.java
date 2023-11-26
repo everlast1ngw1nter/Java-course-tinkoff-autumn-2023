@@ -15,8 +15,8 @@ public class Task4 {
 
     private static final double RADIUS = 1;
 
+    @SuppressWarnings("MagicNumber")
     public static double singleThreadPiCounter(int totalSimulations) {
-        var startTime = System.nanoTime();
         var circleCount = 0;
         var totalCount = 0;
         var rnd = new Random();
@@ -29,20 +29,16 @@ public class Task4 {
             totalCount++;
         }
 
-        var endTime = System.nanoTime();
-        var duration = endTime - startTime;
-        System.out.println(((double) circleCount / totalCount) * 4);
-        System.out.println(duration);
         return ((double) circleCount / totalCount) * 4;
     }
 
+    @SuppressWarnings("MagicNumber")
     public static double multiThreadPiCounter(int threads, int totalSimulations)
             throws InterruptedException, ExecutionException {
 
         var perEachThread = totalSimulations / threads;
         var circleCount = 0;
         var totalCount = 0;
-        var startTime = System.nanoTime();
 
         Callable<ThreadSimulationResult> callable = () -> {
             var threadCircleCount = 0;
@@ -66,10 +62,6 @@ public class Task4 {
             }
         }
 
-        var endTime = System.nanoTime();
-        var duration = endTime - startTime;
-        System.out.println(((double) circleCount / totalCount) * 4);
-        System.out.println(duration);
         return ((double) circleCount / totalCount) * 4;
     }
 

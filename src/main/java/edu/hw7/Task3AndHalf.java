@@ -14,7 +14,6 @@ public class Task3AndHalf {
         private final ReadWriteLock lock;
 
         public ReadWriteLockPersonDatabase() {
-            super();
             lock = new ReentrantReadWriteLock();
         }
 
