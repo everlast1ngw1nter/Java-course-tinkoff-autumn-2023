@@ -4,17 +4,21 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.locks.ReadWriteLock;
+import java.util.concurrent.locks.ReentrantReadWriteLock;
 
-public class Task3 {
+public class Task3AndHalf {
 
-    public static class SynchronizedPersonDatabase implements PersonDatabase {
+    public static class ReadWriteLockPersonDatabase implements PersonDatabase {
 
+        private final ReadWriteLock lock;
         private final Map<Integer, Person> idPersonMap;
         private final Map<String, List<Person>> namePersonMap;
         private final Map<String, List<Person>> addressPersonMap;
         private final Map<String, List<Person>> phoneNumberPersonMap;
 
-        public SynchronizedPersonDatabase() {
+        public ReadWriteLockPersonDatabase() {
+            lock = new ReentrantReadWriteLock();
             idPersonMap = new HashMap<>();
             namePersonMap = new HashMap<>();
             addressPersonMap = new HashMap<>();
@@ -66,41 +70,66 @@ public class Task3 {
         }
 
         @Override
-        public synchronized void add(Person person) {
-            var oldPerson = idPersonMap.get(person.id());
-            if (oldPerson != null) {
-                person = updatePerson(oldPerson, person);
-            }
-            idPersonMap.put(person.id(), person);
-            if (isPersonFieldsNotNull(person)) {
-                addToReverseIndexes(person);
+        public void add(Person person) {
+            lock.writeLock().lock();
+            try {
+                var oldPerson = idPersonMap.get(person.id());
+                if (oldPerson != null) {
+                    person = updatePerson(oldPerson, person);
+                }
+                idPersonMap.put(person.id(), person);
+                if (isPersonFieldsNotNull(person)) {
+                    addToReverseIndexes(person);
+                }
+            } finally {
+                lock.writeLock().unlock();
             }
         }
 
         @Override
         public synchronized void delete(int id) {
-            var person = idPersonMap.get(id);
-            if (person == null) {
-                throw new IllegalArgumentException("No person by this id");
-            }
-            if (isPersonFieldsNotNull(person)) {
-                deleteFromReverseIndexes(person);
+            lock.writeLock().lock();
+            try {
+                var person = idPersonMap.get(id);
+                if (person == null) {
+                    throw new IllegalArgumentException("No person by this id");
+                }
+                if (isPersonFieldsNotNull(person)) {
+                    deleteFromReverseIndexes(person);
+                }
+            } finally {
+                lock.writeLock().unlock();
             }
         }
 
         @Override
-        public synchronized List<Person> findByName(String name) {
-            return namePersonMap.get(name);
+        public List<Person> findByName(String name) {
+            lock.readLock().lock();
+            try {
+                return namePersonMap.get(name);
+            } finally {
+                lock.readLock().unlock();
+            }
         }
 
         @Override
         public synchronized List<Person> findByAddress(String address) {
-            return addressPersonMap.get(address);
+            lock.readLock().lock();
+            try {
+                return addressPersonMap.get(address);
+            } finally {
+                lock.readLock().unlock();
+            }
         }
 
         @Override
         public synchronized List<Person> findByPhone(String phone) {
-            return phoneNumberPersonMap.get(phone);
+            lock.readLock().lock();
+            try {
+                return phoneNumberPersonMap.get(phone);
+            } finally {
+                lock.readLock().unlock();
+            }
         }
     }
 }

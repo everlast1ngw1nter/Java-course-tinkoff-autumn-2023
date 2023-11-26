@@ -17,6 +17,7 @@ public class Task4 {
         var circleCount = 0;
         var totalCount = 0;
         var rnd = new Random();
+
         for (var i = 0; i < totalSimulations; i++) {
             if (isInCircle(rnd.nextDouble(0, 1),
                     rnd.nextDouble(0, 1), r )) {
@@ -24,6 +25,7 @@ public class Task4 {
             }
             totalCount++;
         }
+
         var endTime = System.nanoTime();
         var duration = endTime - startTime;
         System.out.println(((double) circleCount / totalCount) * 4);
@@ -32,11 +34,12 @@ public class Task4 {
 
     public static void multiThreadPiCounter(int threads, int totalSimulations)
             throws InterruptedException, ExecutionException {
+
         var perEachThread = totalSimulations / threads;
         var circleCount = 0;
         var totalCount = 0;
-        
         var startTime = System.nanoTime();
+
         Callable<ThreadSimulationResult> runnable = () -> {
             var threadCircleCount = 0;
             var threadTotalCount = 0;
