@@ -5,6 +5,9 @@ import java.util.stream.Stream;
 
 public class Task1 {
 
+    private Task1() {
+    }
+
     public static AtomicLong plusOneInManyThreads(int threadsCount, long timesInThread)
             throws InterruptedException {
         var result = new AtomicLong(0);

@@ -9,10 +9,13 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class Task4 {
-    
-    private static final double r = 1;
 
-    public static void singleThreadPiCounter(int totalSimulations) {
+    private Task4() {
+    }
+
+    private static final double RADIUS = 1;
+
+    public static double singleThreadPiCounter(int totalSimulations) {
         var startTime = System.nanoTime();
         var circleCount = 0;
         var totalCount = 0;
@@ -20,7 +23,7 @@ public class Task4 {
 
         for (var i = 0; i < totalSimulations; i++) {
             if (isInCircle(rnd.nextDouble(0, 1),
-                    rnd.nextDouble(0, 1), r )) {
+                    rnd.nextDouble(0, 1), RADIUS)) {
                 circleCount++;
             }
             totalCount++;
@@ -30,9 +33,10 @@ public class Task4 {
         var duration = endTime - startTime;
         System.out.println(((double) circleCount / totalCount) * 4);
         System.out.println(duration);
+        return ((double) circleCount / totalCount) * 4;
     }
 
-    public static void multiThreadPiCounter(int threads, int totalSimulations)
+    public static double multiThreadPiCounter(int threads, int totalSimulations)
             throws InterruptedException, ExecutionException {
 
         var perEachThread = totalSimulations / threads;
@@ -40,13 +44,13 @@ public class Task4 {
         var totalCount = 0;
         var startTime = System.nanoTime();
 
-        Callable<ThreadSimulationResult> runnable = () -> {
+        Callable<ThreadSimulationResult> callable = () -> {
             var threadCircleCount = 0;
             var threadTotalCount = 0;
             var currRnd = ThreadLocalRandom.current();
             for (var i = 0; i < perEachThread; i++) {
                 if (isInCircle(currRnd.nextDouble(0, 1),
-                        currRnd.nextDouble(0, 1), r )) {
+                        currRnd.nextDouble(0, 1), RADIUS)) {
                     threadCircleCount++;
                 }
                 threadTotalCount++;
@@ -55,7 +59,7 @@ public class Task4 {
         };
 
         try (ExecutorService service = Executors.newFixedThreadPool(threads)) {
-            var futures = service.invokeAll(Collections.nCopies(5, runnable).stream().toList());
+            var futures = service.invokeAll(Collections.nCopies(threads, callable).stream().toList());
             for (var future : futures) {
                 circleCount += future.get().circleCount;
                 totalCount += future.get().totalCount;
@@ -66,6 +70,7 @@ public class Task4 {
         var duration = endTime - startTime;
         System.out.println(((double) circleCount / totalCount) * 4);
         System.out.println(duration);
+        return ((double) circleCount / totalCount) * 4;
     }
 
     private static boolean isInCircle(double x, double y, double r) {
@@ -73,12 +78,4 @@ public class Task4 {
     }
 
     private record ThreadSimulationResult(int circleCount, int totalCount) {}
-
-    public static void main(String[] args)
-            throws InterruptedException, ExecutionException {
-        var totalSimulations = 100000000;
-        var threads = 6;
-        multiThreadPiCounter(threads, totalSimulations);
-        singleThreadPiCounter(totalSimulations);
-    }
 }

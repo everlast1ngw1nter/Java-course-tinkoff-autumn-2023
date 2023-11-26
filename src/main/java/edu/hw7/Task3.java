@@ -7,6 +7,9 @@ import java.util.Map;
 
 public class Task3 {
 
+    private Task3() {
+    }
+
     public static class SynchronizedPersonDatabase implements PersonDatabase {
 
         private final Map<Integer, Person> idPersonMap;
@@ -68,12 +71,13 @@ public class Task3 {
         @Override
         public synchronized void add(Person person) {
             var oldPerson = idPersonMap.get(person.id());
+            var newPerson = person;
             if (oldPerson != null) {
-                person = updatePerson(oldPerson, person);
+                newPerson = updatePerson(oldPerson, person);
             }
-            idPersonMap.put(person.id(), person);
-            if (isPersonFieldsNotNull(person)) {
-                addToReverseIndexes(person);
+            idPersonMap.put(newPerson.id(), newPerson);
+            if (isPersonFieldsNotNull(newPerson)) {
+                addToReverseIndexes(newPerson);
             }
         }
 

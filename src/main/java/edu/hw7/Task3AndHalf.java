@@ -9,6 +9,9 @@ import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 public class Task3AndHalf {
 
+    private Task3AndHalf() {
+    }
+
     public static class ReadWriteLockPersonDatabase implements PersonDatabase {
 
         private final ReadWriteLock lock;
@@ -74,12 +77,13 @@ public class Task3AndHalf {
             lock.writeLock().lock();
             try {
                 var oldPerson = idPersonMap.get(person.id());
+                var newPerson = person;
                 if (oldPerson != null) {
-                    person = updatePerson(oldPerson, person);
+                    newPerson = updatePerson(oldPerson, person);
                 }
-                idPersonMap.put(person.id(), person);
-                if (isPersonFieldsNotNull(person)) {
-                    addToReverseIndexes(person);
+                idPersonMap.put(newPerson.id(), newPerson);
+                if (isPersonFieldsNotNull(newPerson)) {
+                    addToReverseIndexes(newPerson);
                 }
             } finally {
                 lock.writeLock().unlock();
