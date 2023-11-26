@@ -12,7 +12,6 @@ public abstract class PathFinder {
     protected final Maze maze;
 
     protected final Cell[][] paths;
-//    protected final Map<Cell, Cell> paths;
 
     protected static final Point[] DIRECTIONS = new Point[] {
             new Point(1, 0), new Point(0, 1),
