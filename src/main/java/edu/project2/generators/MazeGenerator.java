@@ -19,7 +19,7 @@ public abstract class MazeGenerator {
     protected MazeGenerator(int width, int height, Cell start, Cell end) {
         this.width = width;
         this.height = height;
-        this.maze = new int[width][height];
+        this.maze = new int[height][width];
         this.start = start;
         this.end = end;
     }

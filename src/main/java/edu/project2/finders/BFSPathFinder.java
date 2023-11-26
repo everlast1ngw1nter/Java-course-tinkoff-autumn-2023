@@ -3,13 +3,12 @@ package edu.project2.finders;
 import edu.project2.Cell;
 import edu.project2.Maze;
 import java.util.ArrayDeque;
-import java.util.HashMap;
 import java.util.HashSet;
 
 public class BFSPathFinder extends PathFinder {
 
     public BFSPathFinder(Maze maze) {
-        super(maze, new HashMap<>());
+        super(maze, new Cell[maze.width()][maze.height()]);
     }
 
     protected boolean findPath() {
@@ -29,7 +28,7 @@ public class BFSPathFinder extends PathFinder {
                 if (visited.contains(incidentNode)) {
                     continue;
                 }
-                paths.put(incidentNode, node);
+                paths[incidentNode.col()][incidentNode.row()] = node;
                 if (incidentNode.equals(maze.end())) {
                     return true;
                 }

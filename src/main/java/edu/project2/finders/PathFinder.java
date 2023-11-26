@@ -6,13 +6,13 @@ import edu.project2.Maze;
 import java.awt.Point;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 public abstract class PathFinder {
 
     protected final Maze maze;
 
-    protected final Map<Cell, Cell> paths;
+    protected final Cell[][] paths;
+//    protected final Map<Cell, Cell> paths;
 
     protected static final Point[] DIRECTIONS = new Point[] {
             new Point(1, 0), new Point(0, 1),
@@ -20,7 +20,7 @@ public abstract class PathFinder {
     };
 
 
-    protected PathFinder(Maze maze, Map<Cell, Cell> paths) {
+    protected PathFinder(Maze maze, Cell[][] paths) {
         this.maze = maze;
         this.paths = paths;
     }
@@ -35,7 +35,7 @@ public abstract class PathFinder {
         var currCell = maze.end();
         while (!currCell.equals(maze.start())) {
             list.add(currCell);
-            currCell = paths.get(currCell);
+            currCell = paths[currCell.col()][currCell.row()];
         }
         list.add(maze.start());
         return list.reversed();

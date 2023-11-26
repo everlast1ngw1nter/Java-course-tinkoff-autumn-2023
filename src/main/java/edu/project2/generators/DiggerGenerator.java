@@ -21,7 +21,7 @@ public class DiggerGenerator extends MazeGenerator {
             new Point(-1, 0), new Point(0, -1)
     };
 
-    public DiggerGenerator(int width, int height) {
+    public DiggerGenerator(int height, int width) {
         super(width, height, new Cell(0, 0, CellType.EMPTY), null);
         rnd = new Random();
     }

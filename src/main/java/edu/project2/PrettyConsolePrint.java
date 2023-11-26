@@ -35,9 +35,9 @@ public class PrettyConsolePrint implements PrettyPrint {
                     case EMPTY -> EMPTY_SYMBOL;
                     case WALL -> WALL_SYMBOL;
                 };
-//                if (path.contains(cell)) {
-//                    out = PATH_SYMBOL;
-//                }
+                if (path.contains(cell)) {
+                    out = PATH_SYMBOL;
+                }
                 builder.append(out);
             }
             builder.append(WALL_SYMBOL);
