@@ -12,22 +12,16 @@ public class Task3 {
 
     public static Optional<LocalDate> parseDate(String string)
             throws ParseException {
-        var dashParser = new DashDateParser();
-        var slashParser = new SlashDateParser();
-        var daysAgoParser = new DaysAgoDateParser();
-        var wordParser = new WordDateParser();
-        dashParser.setNextParser(slashParser);
-        slashParser.setNextParser(daysAgoParser);
-        daysAgoParser.setNextParser(wordParser);
+        var dashParser =
+                new DashDateParser(
+                new SlashDateParser(
+                        new DaysAgoDateParser(
+                                new WordDateParser(null))));
         return dashParser.parseDate(string);
     }
 
     private static abstract class DateParser {
         DateParser nextParser;
-
-        public void setNextParser(DateParser parser) {
-            this.nextParser = parser;
-        }
 
         abstract Optional<LocalDate> parseDate(String date)
                 throws ParseException;
@@ -35,6 +29,10 @@ public class Task3 {
 
     private static class DashDateParser extends DateParser {
         private static final Pattern PATTERN = Pattern.compile("^\\d+-\\d{1,2}-\\d{1,2}$");
+
+        public DashDateParser(DateParser nextParser) {
+            this.nextParser = nextParser;
+        }
 
         @Override
         public Optional<LocalDate> parseDate(String date)
@@ -55,6 +53,10 @@ public class Task3 {
     private static class SlashDateParser extends DateParser {
         private static final Pattern PATTERN = Pattern.compile("^\\d{1,2}/\\d{1,2}/\\d+$");
 
+        public SlashDateParser(DateParser nextParser) {
+            this.nextParser = nextParser;
+        }
+
         @Override
         public Optional<LocalDate> parseDate(String date)
                 throws ParseException {
@@ -74,12 +76,16 @@ public class Task3 {
     private static class DaysAgoDateParser extends DateParser {
         private static final Pattern PATTERN = Pattern.compile("^\\d+ days? ago$");
 
+        public DaysAgoDateParser(DateParser nextParser) {
+            this.nextParser = nextParser;
+        }
+
         @Override
         public Optional<LocalDate> parseDate(String date)
                 throws ParseException {
             var matcher = PATTERN.matcher(date);
             if (matcher.find()) {
-                var resultDate = LocalDate.now().plusDays(Long.parseLong(date.split(" ")[0]));
+                var resultDate = LocalDate.now().minusDays(Long.parseLong(date.split(" ")[0]));
                 return Optional.of(resultDate);
             }
             if (nextParser != null) {
@@ -90,6 +96,11 @@ public class Task3 {
     }
 
     private static class WordDateParser extends DateParser {
+
+        public WordDateParser(DateParser nextParser) {
+            this.nextParser = nextParser;
+        }
+
         @Override
         public Optional<LocalDate> parseDate(String date)
                 throws ParseException {

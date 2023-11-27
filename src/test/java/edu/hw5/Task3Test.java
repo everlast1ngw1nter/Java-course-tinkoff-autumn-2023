@@ -34,12 +34,12 @@ public class Task3Test {
                 ),
                 Arguments.of(
                         "1 day ago",
-                        LocalDate.ofInstant(Instant.now().plus(1, ChronoUnit.DAYS),
+                        LocalDate.ofInstant(Instant.now().minus(1, ChronoUnit.DAYS),
                                 ZoneId.systemDefault())
                 ),
                 Arguments.of(
                         "2234 days ago",
-                        LocalDate.ofInstant(Instant.now().plus(2234, ChronoUnit.DAYS),
+                        LocalDate.ofInstant(Instant.now().minus(2234, ChronoUnit.DAYS),
                                 ZoneId.systemDefault())
                 ),
                 Arguments.of(

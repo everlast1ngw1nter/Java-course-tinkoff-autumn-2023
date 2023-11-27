@@ -14,13 +14,10 @@ public class Task2 {
 
     public static List<LocalDate> findAllFridayThirteenThisYear(int year) {
         List<LocalDate> fridaysThirteens = new ArrayList<>();
-        LocalDate date = LocalDate.of(year, 1, 1);
-        while (true) {
-            date = date.with(NEXT_FRIDAY_THIRTEEN);
-            if (date.getYear() != year) {
-                break;
-            }
+        LocalDate date = LocalDate.of(year, 1, 1).with(NEXT_FRIDAY_THIRTEEN);
+        while (date.getYear() == year) {
             fridaysThirteens.add(date);
+            date = date.with(NEXT_FRIDAY_THIRTEEN);
         }
         return fridaysThirteens;
     }
