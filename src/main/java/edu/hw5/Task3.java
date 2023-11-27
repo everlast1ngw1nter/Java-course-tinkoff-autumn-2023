@@ -30,7 +30,7 @@ public class Task3 {
     private static class DashDateParser extends DateParser {
         private static final Pattern PATTERN = Pattern.compile("^\\d+-\\d{1,2}-\\d{1,2}$");
 
-        public DashDateParser(DateParser nextParser) {
+        DashDateParser(DateParser nextParser) {
             this.nextParser = nextParser;
         }
 
@@ -53,7 +53,7 @@ public class Task3 {
     private static class SlashDateParser extends DateParser {
         private static final Pattern PATTERN = Pattern.compile("^\\d{1,2}/\\d{1,2}/\\d+$");
 
-        public SlashDateParser(DateParser nextParser) {
+        SlashDateParser(DateParser nextParser) {
             this.nextParser = nextParser;
         }
 
@@ -76,7 +76,7 @@ public class Task3 {
     private static class DaysAgoDateParser extends DateParser {
         private static final Pattern PATTERN = Pattern.compile("^\\d+ days? ago$");
 
-        public DaysAgoDateParser(DateParser nextParser) {
+        DaysAgoDateParser(DateParser nextParser) {
             this.nextParser = nextParser;
         }
 
@@ -97,7 +97,7 @@ public class Task3 {
 
     private static class WordDateParser extends DateParser {
 
-        public WordDateParser(DateParser nextParser) {
+        WordDateParser(DateParser nextParser) {
             this.nextParser = nextParser;
         }
 
