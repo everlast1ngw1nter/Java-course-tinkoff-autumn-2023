@@ -29,6 +29,7 @@ public class Task1Test {
         var map = new Task1.DiskMap(filePath.toFile());
         map.put("1", "2");
         map.put("4", "3");
+        map.save();
         var strings = Files.readAllLines(filePath);
         assertEquals(strings.size(), 2);
         assertTrue(strings.contains("1:2"));

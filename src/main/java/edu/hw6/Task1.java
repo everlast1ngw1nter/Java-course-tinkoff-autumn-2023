@@ -83,18 +83,14 @@ public class Task1 {
         @Nullable
         @Override
         public String put(String key, String value) {
-            try {
-                putInFile(key, value);
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
             return diskMap.put(key, value);
         }
 
-        private void putInFile(String key, String value) throws IOException {
+        public void save() throws IOException {
             try (FileWriter writer = new FileWriter(fileMap, true)) {
-                String text = key + ":" + value + "\n";
-                writer.write(text);
+                for (var elem : diskMap.entrySet()) {
+                    writer.write(elem.getKey() + ":" + elem.getValue() + "\n");
+                }
             } catch (IOException e) {
                 throw new IOException(e);
             }
