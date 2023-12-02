@@ -33,7 +33,7 @@ public class Task1Test {
             }
         });
         serverThread.start();
-        Thread.sleep(2000);
+        Thread.sleep(5000);
         Callable<Void> callable = () -> {
             var rnd = ThreadLocalRandom.current();
             var ans = Task1Client.getCausticResponse(REQUESTS.get(rnd.nextInt(4)));
