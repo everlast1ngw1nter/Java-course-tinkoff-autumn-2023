@@ -3,7 +3,7 @@ package edu.hw8;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Task2FixedThreadPool implements ThreadPool {
+public class Task2FixedThreadPool implements Task2ThreadPool {
 
     private final List<Thread> threadList;
     private final List<Runnable> tasks;
