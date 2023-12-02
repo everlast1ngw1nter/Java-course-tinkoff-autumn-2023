@@ -45,18 +45,12 @@ public class Task2FixedThreadPool implements Task2ThreadPool {
         }
     }
 
-    public static class MultiRunnable implements Runnable {
-
-        private final List<Runnable> runnable;
-
-        public MultiRunnable(List<Runnable> runnable) {
-            this.runnable = runnable;
-        }
-
+    private record MultiRunnable(List<Runnable> runnable) implements Runnable {
         @Override
-        public void run() {
-            for (var runnable : runnable)
-                runnable.run();
+            public void run() {
+                for (var runnable : runnable) {
+                    runnable.run();
+                }
+            }
         }
-    }
 }
