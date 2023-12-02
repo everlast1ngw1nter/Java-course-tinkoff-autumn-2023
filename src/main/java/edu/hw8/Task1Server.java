@@ -11,15 +11,24 @@ import java.util.concurrent.Executors;
 
 public class Task1Server {
 
-    private static final Map<String, String> map = Map.of(
-            "личности", "Не переходи на личности там, где их нет",
-            "оскорбления", "Если твои противники перешли на личные оскорбления, будь уверена — твоя победа не за горами",
-            "глупый", "А я тебе говорил, что ты глупый? Так вот, я забираю свои слова обратно... Ты просто бог идиотизма.",
-            "интеллект", "Чем ниже интеллект, тем громче оскорбления");
+    private Task1Server() {
+    }
+
+    private static final int PORT = 53;
+
+    private static final Map<String, String> ANSWER_MAP = Map.of(
+            "личности",
+            "Не переходи на личности там, где их нет",
+            "оскорбления",
+            "Если твои противники перешли на личные оскорбления, будь уверена — твоя победа не за горами",
+            "глупый",
+            "А я тебе говорил, что ты глупый? Так вот, я забираю свои слова обратно... Ты просто бог идиотизма.",
+            "интеллект",
+            "Чем ниже интеллект, тем громче оскорбления");
 
     public static void startServer(int threads) throws IOException {
 
-        try (var server = new ServerSocket(53);
+        try (var server = new ServerSocket(PORT);
              var executor = Executors.newFixedThreadPool(threads)) {
             while (true) {
                 var client = server.accept();
@@ -27,7 +36,7 @@ public class Task1Server {
                     try (var reader = new BufferedReader(new InputStreamReader(client.getInputStream()))) {
                         var inputString = reader.readLine();
                         var writer = new BufferedWriter(new OutputStreamWriter(client.getOutputStream()));
-                        writer.write(map.get(inputString));
+                        writer.write(ANSWER_MAP.get(inputString));
                         writer.flush();
                     } catch (IOException e) {
                         throw new RuntimeException(e);

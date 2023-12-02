@@ -4,10 +4,15 @@ import java.util.List;
 
 public class Task2FibonacciCalculator {
 
+    private Task2FibonacciCalculator() {
+    }
+
+    private static final int THREADS = 4;
+
     public static long[] calculate(List<Integer> numbers)
             throws Exception {
         var countedFibonacci = new long[numbers.size()];
-        try (var pool = Task2FixedThreadPool.create(4)) {
+        try (var pool = Task2FixedThreadPool.create(THREADS)) {
             for (var i = 0; i < numbers.size(); i++) {
                 pool.execute(new RunnableFibonacciCalculator(countedFibonacci, i, numbers.get(i)));
             }

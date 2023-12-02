@@ -21,6 +21,7 @@ public abstract class Task3AbstractDecryptor {
         this.decryptedPasswords = new ConcurrentHashMap<>();
     }
 
+    @SuppressWarnings("ParameterAssignment")
     protected String nextPassword(long stringNumber) {
         var builder = new StringBuilder();
         do {
@@ -32,6 +33,7 @@ public abstract class Task3AbstractDecryptor {
         return builder.toString();
     }
 
+    @SuppressWarnings("MagicNumber")
     protected void tryDecryptPassword(String password)
             throws NoSuchAlgorithmException {
         byte[] bytesOfMessage = password.getBytes(StandardCharsets.UTF_8);
@@ -39,11 +41,12 @@ public abstract class Task3AbstractDecryptor {
         var hexList = new ArrayList<String>();
         for (var elem : md.digest(bytesOfMessage)) {
             var currHex = Integer.toHexString(0xff & elem);
-            hexList.add(switch (currHex.length()) {
+            var currValue = switch (currHex.length()) {
                 case 1 -> "0" + currHex;
                 case 2 -> currHex;
                 default -> throw new IllegalArgumentException();
-            });
+            };
+            hexList.add(currValue);
         }
         var encryptedPossiblePassword = String.join("", hexList);
         if (encryptedPasswords.containsKey(encryptedPossiblePassword)) {

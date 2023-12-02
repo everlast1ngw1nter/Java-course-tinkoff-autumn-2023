@@ -9,8 +9,14 @@ import java.net.InetAddress;
 import java.net.Socket;
 
 public class Task1Client {
+
+    private Task1Client() {
+    }
+
+    private static final int PORT = 53;
+
     public static String getCausticResponse(String msg) {
-        try (var socket = new Socket(InetAddress.getByName("localhost"), 53)) {
+        try (var socket = new Socket(InetAddress.getByName("localhost"), PORT)) {
             var writer = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
             writer.write(msg);
             writer.flush();
