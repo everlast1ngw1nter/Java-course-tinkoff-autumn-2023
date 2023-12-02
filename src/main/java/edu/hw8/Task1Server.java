@@ -14,7 +14,7 @@ public class Task1Server {
     private Task1Server() {
     }
 
-    private static final int PORT = 53;
+    private static final int PORT = 18080;
 
     private static final Map<String, String> ANSWER_MAP = Map.of(
             "личности",

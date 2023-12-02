@@ -13,7 +13,7 @@ public class Task1Client {
     private Task1Client() {
     }
 
-    private static final int PORT = 53;
+    private static final int PORT = 18080;
 
     public static String getCausticResponse(String msg) {
         try (var socket = new Socket(InetAddress.getByName("localhost"), PORT)) {
