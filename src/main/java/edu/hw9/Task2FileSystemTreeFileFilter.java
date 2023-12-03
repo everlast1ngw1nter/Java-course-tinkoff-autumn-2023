@@ -6,54 +6,53 @@ import java.util.List;
 import java.util.concurrent.ForkJoinPool;
 import java.util.concurrent.ForkJoinTask;
 import java.util.concurrent.RecursiveTask;
+import java.util.function.Function;
 
-public class Task2FileSystemTreeDirectoryFinder {
+public class Task2FileSystemTreeFileFilter {
 
-    private final int filesInDirectory;
+    private final Function<File, Boolean> filter;
 
     private final File startFile;
 
-    public Task2FileSystemTreeDirectoryFinder(File startFile, int filesInDirectory) {
-        this.filesInDirectory = filesInDirectory;
+    public Task2FileSystemTreeFileFilter(File startFile, Function<File, Boolean> filter) {
+        this.filter = filter;
         this.startFile = startFile;
     }
 
     public List<File> find() {
-        var task = new RecursiveDirectoryFinder(startFile);
+        var task = new RecursiveFileFilter(startFile);
         try (var forkJoinPool = new ForkJoinPool()) {
             return forkJoinPool.invoke(task);
         }
     }
 
 
-    private class RecursiveDirectoryFinder extends RecursiveTask<List<File>> {
+    private class RecursiveFileFilter extends RecursiveTask<List<File>> {
 
         private final File file;
 
-        RecursiveDirectoryFinder(File path) {
+        RecursiveFileFilter(File path) {
             this.file = path;
         }
 
         @Override
         protected List<File> compute() {
-            if (file.isFile() || file.listFiles() == null) {
+            if (file.isFile() && filter.apply(file)) {
+                return List.of(file);
+            }
+            var filesList = file.listFiles();
+            if (filesList == null) {
                 return List.of();
             }
-
             var forks = new ArrayList<ForkJoinTask<List<File>>>();
-            var filesList = file.listFiles();
             for (var nextFile : filesList) {
-                forks.add(new RecursiveDirectoryFinder(nextFile).fork());
+                forks.add(new RecursiveFileFilter(nextFile).fork());
             }
-            var found = new ArrayList<>(forks
+            return new ArrayList<>(forks
                     .stream()
                     .map(ForkJoinTask::join)
                     .flatMap(List::stream)
                     .toList());
-            if (filesList.length > filesInDirectory) {
-                found.add(file);
-            }
-            return found;
         }
     }
 }
