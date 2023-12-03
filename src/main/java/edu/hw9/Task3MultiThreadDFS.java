@@ -2,9 +2,13 @@ package edu.hw9;
 
 import java.awt.Point;
 import java.util.ArrayList;
-import java.util.HashSet;
+import java.util.Collections;
 import java.util.List;
-import java.util.Stack;
+import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ForkJoinPool;
+import java.util.concurrent.ForkJoinTask;
+import java.util.concurrent.RecursiveTask;
 
 public class Task3MultiThreadDFS {
 
@@ -34,30 +38,12 @@ public class Task3MultiThreadDFS {
         return new Maze(cellMaze, start, end, height, width);
     }
 
-    public boolean findPathSingleThread() {
-        if (maze.start().equals(maze.end())) {
-            return true;
+
+    public boolean findPathMultiThread() {
+        var finder = new PathFinder(maze.start, Collections.newSetFromMap(new ConcurrentHashMap<>()));
+        try (var forkJoinPool = new ForkJoinPool()) {
+            return forkJoinPool.invoke(finder);
         }
-        var visited = new HashSet<Cell>();
-        var stack = new Stack<Cell>();
-        stack.push(maze.start());
-        while (!stack.empty()) {
-            var node = stack.pop();
-            if (visited.contains(node)) {
-                continue;
-            }
-            visited.add(node);
-            for (var incidentNode : getNeighbours(node)) {
-                if (visited.contains(incidentNode)) {
-                    continue;
-                }
-                if (incidentNode.equals(maze.end())) {
-                    return true;
-                }
-                stack.push(incidentNode);
-            }
-        }
-        return false;
     }
 
     private List<Cell> getNeighbours(Cell currCell) {
@@ -75,6 +61,37 @@ public class Task3MultiThreadDFS {
     private boolean isInBounds(Point p) {
         return p.x < maze.height() && p.x > -1
                 && p.y < maze.width() && p.y > -1;
+    }
+
+    private class PathFinder extends RecursiveTask<Boolean> {
+
+        private final Set<Cell> visited;
+
+        private final Cell curr;
+
+        PathFinder(Cell curr, Set<Cell> visited) {
+            this.curr = curr;
+            this.visited = visited;
+        }
+
+        @Override
+        protected Boolean compute() {
+            if (curr.equals(maze.end())) {
+                return true;
+            }
+            visited.add(curr);
+            var forks = new ArrayList<ForkJoinTask<Boolean>>();
+            for (var incidentNode : getNeighbours(curr)) {
+                if (visited.contains(incidentNode)) {
+                    continue;
+                }
+                forks.add(new PathFinder(incidentNode, visited).fork());
+            }
+            if (forks.isEmpty()) {
+                return false;
+            }
+            return forks.stream().anyMatch(ForkJoinTask::join);
+        }
     }
 
     private record Maze(Cell[][] grid, Cell start, Cell end, int height, int width) {

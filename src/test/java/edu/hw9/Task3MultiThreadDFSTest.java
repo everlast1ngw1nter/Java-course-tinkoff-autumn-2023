@@ -13,11 +13,11 @@ public class Task3MultiThreadDFSTest {
                 {0, 0, 0, 0},
                 {0, 0, 0, 0},
                 {0, 0, 0, 0},
-                {0, 0, 0, 0},
+                {0, 0, 0, 0}
         };
         var finder = new Task3MultiThreadDFS(grid, new Point(0,0),
                 new Point(3, 3), 4, 4);
-        assertTrue(finder.findPathSingleThread());
+        assertTrue(finder.findPathMultiThread());
     }
 
     @Test
@@ -30,6 +30,6 @@ public class Task3MultiThreadDFSTest {
         };
         var finder = new Task3MultiThreadDFS(grid, new Point(0,0),
                 new Point(3, 3), 4, 4);
-        assertFalse(finder.findPathSingleThread());
+        assertFalse(finder.findPathMultiThread());
     }
 }

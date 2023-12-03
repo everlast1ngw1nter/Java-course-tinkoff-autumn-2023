@@ -16,10 +16,12 @@ public class Task1StatsCollector {
 
     private final BlockingQueue<ResultInfo> processedDataQueue;
 
+    private static final int DATA_CAPACITY = 10;
+
     public Task1StatsCollector(int producerCount, int consumerCount) {
         this.producerCount = producerCount;
         this.consumerCount =  consumerCount;
-        this.dataQueue = new LinkedBlockingQueue<>(10);
+        this.dataQueue = new LinkedBlockingQueue<>(DATA_CAPACITY);
         this.processedDataQueue = new LinkedBlockingQueue<>();
     }
 
@@ -27,20 +29,6 @@ public class Task1StatsCollector {
         return processedDataQueue
                 .stream()
                 .toList();
-    }
-
-    private record RunnableTask(List<StatInfo> statInfoList, BlockingQueue<StatInfo> queue, int index)
-            implements Runnable {
-
-        @Override
-        public void run() {
-            var data = statInfoList.get(index);
-            try {
-                queue.put(data);
-            } catch (InterruptedException e) {
-                throw new RuntimeException(e);
-            }
-        }
     }
 
     public void start(List<StatInfo> statInfoList) {
@@ -103,5 +91,19 @@ public class Task1StatsCollector {
         MIN,
         AVG,
         SUM
+    }
+
+    private record RunnableTask(List<StatInfo> statInfoList, BlockingQueue<StatInfo> queue, int index)
+            implements Runnable {
+
+        @Override
+        public void run() {
+            var data = statInfoList.get(index);
+            try {
+                queue.put(data);
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+        }
     }
 }
