@@ -1,21 +1,12 @@
 package edu.project4;
 
+import java.awt.Color;
+
 public class Pixel {
 
-    private int r;
+    private Color color;
 
-    private int g;
-
-    private int b;
-
-    private int hitCount;
-
-    public Pixel() {
-        r = 0;
-        g = 0;
-        b = 0;
-        hitCount = 0;
-    }
+    private int hitCount = 0;
 
     public void incrementHitCount() {
         hitCount++;
@@ -23,5 +14,13 @@ public class Pixel {
 
     public int getHitCount() {
         return hitCount;
+    }
+
+    public void setColor(Color color) {
+        this.color = color;
+    }
+
+    public Color getColor() {
+        return color;
     }
 }

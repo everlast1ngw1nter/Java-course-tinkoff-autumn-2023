@@ -1,44 +1,63 @@
 package edu.project4.render;
 
+import edu.project4.AffineTransformation;
 import edu.project4.FractalImage;
 import edu.project4.Pixel;
 import edu.project4.Point;
 import edu.project4.PointUtils;
-import edu.project4.Rect;
 import edu.project4.transformations.Transformation;
+import java.awt.Color;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import static edu.project4.PointUtils.rotate;
 
 public class SingleThreadRenderer implements Renderer{
+
+    private static final double XMIN = -1.777, XMAX=1.777, YMIN=-1, YMAX=1;
+
+
     @Override
     public FractalImage render(FractalImage canvas, List<Transformation> variations, int samples,
-                               short iterPerSample, int symmetry) {
+                               int iterPerSample, int symmetry) {
         var rnd = new Random();
+        var affines = new ArrayList<AffineTransformation>();
+        for (var k = 0; k < 10; k++) {
+            affines.add(new AffineTransformation());
+        }
         for (int num = 0; num < samples; ++num) {
-            Point pw = PointUtils.getRandomPoint(0, 0, canvas.height(), canvas.width());
-
-            for (short step = 0; step < iterPerSample; step++) {
-                Transformation variation =  variations.get(rnd.nextInt(0, variations.size()));
-                pw = variation.apply(pw);
-                double theta2 = 0.0;
-                for (int s = 0; s < symmetry; theta2 += Math.PI * 2 / symmetry, s++) {
-                    var pwr = rotate(pw, theta2);
-                    if (!canvas.contains(pwr)) {
+            var newX = rnd.nextDouble(XMIN,XMAX);
+            var newY = rnd.nextDouble(YMIN,YMAX);
+            for (int step = -20; step < iterPerSample; step++) {
+                var affineTransformation = affines.get(rnd.nextInt(0, affines.size()));
+                var pw = new Point(newX, newY);
+                var tpw = affineTransformation.transform(pw);
+                var variation = variations.get(rnd.nextInt(0, variations.size()));
+                pw = variation.apply(tpw);
+                if (step >= 0 && XMIN <= pw.x() && XMAX >= pw.x()
+                        && YMIN <= pw.y() && YMAX >= pw.y()) {
+                    var x1 = canvas.width() - (int)(((XMAX-pw.x())/(XMAX-XMIN)) * canvas.width());
+                    var y1 = canvas.height() - (int)(((YMAX-pw.y())/(YMAX-YMIN)) * canvas.height());
+                    pw = new Point(x1, y1);
+                    if (!canvas.contains(pw)) {
                         continue;
                     }
-                    Pixel pixel = canvas.pixel(pwr);
-                    changeColor(pixel);
-
-                    // 1. делаем лок на время работы с пикселем
-                    // 2. подмешиваем цвет и увеличиваем hit count
+                    var pixel = canvas.pixel(pw);
+                    if (pixel.getHitCount() == 0) {
+                        pixel.setColor(affineTransformation.getColor());
+                    } else {
+                        var affineColor = affineTransformation.getColor();
+                        var pixelColor = pixel.getColor();
+                        pixel.setColor(new Color(
+                                (pixelColor.getRed() + affineColor.getRed()) / 2,
+                                (pixelColor.getGreen() + affineColor.getGreen()) / 2,
+                                (pixelColor.getBlue() + affineColor.getBlue()) / 2));
+                    }
+                    pixel.incrementHitCount();
                 }
+
             }
         }
         return canvas;
-    }
-
-    private void changeColor(Pixel pixel) {
-        pixel.incrementHitCount();
     }
 }

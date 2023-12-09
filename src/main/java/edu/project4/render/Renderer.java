@@ -8,5 +8,5 @@ import java.util.List;
 @FunctionalInterface
 public interface Renderer {
     FractalImage render(FractalImage canvas, List<Transformation> variations, int samples,
-                        short iterPerSample, int symmetry);
+                        int iterPerSample, int symmetry);
 }

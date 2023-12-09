@@ -23,14 +23,14 @@ public class AffineTransformation {
 
     public AffineTransformation() {
         var rnd = new Random();
-        while (a * a + b * b + d * d + e * e >= 1 + (a * e - b * d) *  (a * e - b * d)
-                || a * a + d * d >= 1
-                || b * b + c * c >= 1) {
+        do {
             a = rnd.nextDouble(MIN, MAX);
             b = rnd.nextDouble(MIN,  MAX);
             d = rnd.nextDouble(MIN,  MAX);
             e = rnd.nextDouble(MIN,  MAX);
-        }
+        } while (a * a + b * b + d * d + e * e >= 1 + (a * e - b * d) *  (a * e - b * d)
+                    || a * a + d * d >= 1
+                    || b * b + c * c >= 1);
         c = rnd.nextDouble(MIN,  MAX);
         f = rnd.nextDouble(MIN,  MAX);
         red = rnd.nextInt(0, MAX_RGB_COLOR);

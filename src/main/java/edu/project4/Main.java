@@ -13,10 +13,11 @@ import java.util.List;
 public class Main {
     public static void main(String[] args) throws IOException {
         var renderer = new SingleThreadRenderer();
-        var fractalImage = FractalImage.create(1000, 1000);
+        var fractalImage = FractalImage.create(1920, 1080);
         var variations = new ArrayList<Transformation>();
-        variations.add(new Cross());
-        var res = renderer.render(fractalImage, variations, 100000, (short) 100, 25);
+//        variations.add(new Cross());
+        variations.add(new Exponential());
+        var res = renderer.render(fractalImage, variations, 1000000, 50, 25);
         ImageUtils.save(res, new File("").toPath(), ImageFormat.PNG);
     }
 }
