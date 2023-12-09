@@ -6,7 +6,7 @@ public class Pixel {
 
     private Color color;
 
-    private int hitCount = 0;
+    private int hitCount;
 
     public void incrementHitCount() {
         hitCount++;

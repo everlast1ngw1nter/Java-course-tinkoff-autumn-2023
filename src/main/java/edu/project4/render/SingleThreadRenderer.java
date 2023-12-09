@@ -14,8 +14,10 @@ import static edu.project4.PointUtils.rotate;
 
 public class SingleThreadRenderer implements Renderer{
 
-    private static final double XMIN = -1.777, XMAX=1.777, YMIN=-1, YMAX=1;
-
+    private static final double XMIN = -1.777;
+    private static final double XMAX = 1.777;
+    private static final double YMIN = -1;
+    private static final double YMAX = 1;
 
     @Override
     public FractalImage render(FractalImage canvas, List<Transformation> variations, int samples,

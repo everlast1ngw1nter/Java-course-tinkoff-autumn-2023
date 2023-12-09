@@ -1,7 +1,6 @@
 package edu.project4.render;
 
 import edu.project4.FractalImage;
-import edu.project4.Rect;
 import edu.project4.transformations.Transformation;
 import java.util.List;
 
