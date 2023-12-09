@@ -1,6 +1,6 @@
 package edu.project4;
 
-enum ImageFormat {
+public enum ImageFormat {
     JPEG,
     BMP,
     PNG
