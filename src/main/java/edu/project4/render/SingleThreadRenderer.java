@@ -24,7 +24,7 @@ public class SingleThreadRenderer implements Renderer{
                                int iterPerSample, int symmetry) {
         var rnd = new Random();
         var affines = new ArrayList<AffineTransformation>();
-        for (var k = 0; k < 10; k++) {
+        for (var k = 0; k < 1; k++) {
             affines.add(new AffineTransformation());
         }
         for (int num = 0; num < samples; ++num) {
@@ -38,26 +38,29 @@ public class SingleThreadRenderer implements Renderer{
                 pw = variation.apply(tpw);
                 if (step >= 0 && XMIN <= pw.x() && XMAX >= pw.x()
                         && YMIN <= pw.y() && YMAX >= pw.y()) {
-                    var x1 = canvas.width() - (int)(((XMAX-pw.x())/(XMAX-XMIN)) * canvas.width());
-                    var y1 = canvas.height() - (int)(((YMAX-pw.y())/(YMAX-YMIN)) * canvas.height());
-                    pw = new Point(x1, y1);
-                    if (!canvas.contains(pw)) {
-                        continue;
+                    double theta2 = 0.0;
+                    for (int s = 0; s < symmetry; theta2 += Math.PI * 2 / symmetry, ++s) {
+                        var pwr = rotate(pw, theta2);
+                        var x1 = canvas.width() - (int)(((XMAX-pwr.x())/(XMAX-XMIN)) * canvas.width());
+                        var y1 = canvas.height() - (int)(((YMAX-pwr.y())/(YMAX-YMIN)) * canvas.height());
+                        pwr = new Point(x1, y1);
+                        if (!canvas.contains(pwr)) {
+                            continue;
+                        }
+                        var pixel = canvas.pixel(pwr);
+                        if (pixel.getHitCount() == 0) {
+                            pixel.setColor(affineTransformation.getColor());
+                        } else {
+                            var affineColor = affineTransformation.getColor();
+                            var pixelColor = pixel.getColor();
+                            pixel.setColor(new Color(
+                                    (pixelColor.getRed() + affineColor.getRed()) / 2,
+                                    (pixelColor.getGreen() + affineColor.getGreen()) / 2,
+                                    (pixelColor.getBlue() + affineColor.getBlue()) / 2));
+                        }
+                        pixel.incrementHitCount();
                     }
-                    var pixel = canvas.pixel(pw);
-                    if (pixel.getHitCount() == 0) {
-                        pixel.setColor(affineTransformation.getColor());
-                    } else {
-                        var affineColor = affineTransformation.getColor();
-                        var pixelColor = pixel.getColor();
-                        pixel.setColor(new Color(
-                                (pixelColor.getRed() + affineColor.getRed()) / 2,
-                                (pixelColor.getGreen() + affineColor.getGreen()) / 2,
-                                (pixelColor.getBlue() + affineColor.getBlue()) / 2));
-                    }
-                    pixel.incrementHitCount();
                 }
-
             }
         }
         return canvas;

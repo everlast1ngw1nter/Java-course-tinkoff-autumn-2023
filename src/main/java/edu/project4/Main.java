@@ -17,14 +17,14 @@ public class Main {
         var renderer = new SingleThreadRenderer();
         var fractalImage = FractalImage.create(1920, 1080);
         var variations = new ArrayList<Transformation>();
-        variations.add(new Cross());
-        variations.add(new Exponential());
-        variations.add(new Linear());
-        variations.add(new Sinusoidal());
+//        variations.add(new Cross());
+//        variations.add(new Exponential());
+//        variations.add(new Linear());
+//        variations.add(new Sinusoidal());
         variations.add(new Spherical());
-        var res = renderer.render(fractalImage, variations, 1000000, 50, 25);
-        var corrector = new GammaCorrection(10);
+        var res = renderer.render(fractalImage, variations, 42*42*42, 42, 42);
+        var corrector = new GammaCorrection(42);
         corrector.process(res);
-        ImageUtils.save(res, new File("C:\\Users\\haier\\Desktop\\prog\\10.jpeg").toPath(), ImageFormat.JPEG);
+        ImageUtils.save(res, new File("C:\\Users\\haier\\Desktop\\prog\\21.jpeg").toPath(), ImageFormat.JPEG);
     }
 }
