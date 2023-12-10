@@ -46,13 +46,12 @@ public interface Renderer {
         double theta2 = 0.0;
         for (int s = 0; s < symmetry; theta2 += Math.PI * 2 / symmetry, ++s) {
             var pwr = rotate(pw, theta2);
-            var x1 = canvas.width() - (int) (((cfg.xMax() - pwr.x()) / (cfg.xMax() - cfg.xMin())) * canvas.width());
-            var y1 = canvas.height() - (int) (((cfg.yMax() - pwr.y()) / (cfg.yMax() - cfg.yMin())) * canvas.height());
-            pwr = new Point(x1, y1);
-            if (!canvas.contains(pwr)) {
-                continue;
+            var newX = canvas.width() - (int) (((cfg.xMax() - pwr.x()) / (cfg.xMax() - cfg.xMin())) * canvas.width());
+            var newY = canvas.height() - (int) (((cfg.yMax() - pwr.y()) / (cfg.yMax() - cfg.yMin())) * canvas.height());
+            pwr = new Point(newX, newY);
+            if (canvas.contains(pwr)) {
+                updatePixel(canvas, pwr, affineTransformation);
             }
-            updatePixel(canvas, pwr, affineTransformation);
         }
     }
 
