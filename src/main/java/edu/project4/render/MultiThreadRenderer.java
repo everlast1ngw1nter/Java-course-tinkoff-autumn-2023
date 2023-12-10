@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Random;
 import static edu.project4.PointUtils.rotate;
 
-public class SingleThreadRenderer implements Renderer{
+public class MultiThreadRenderer implements Renderer{
 
     private static final double XMIN = -1.777;
     private static final double XMAX = 1.777;
