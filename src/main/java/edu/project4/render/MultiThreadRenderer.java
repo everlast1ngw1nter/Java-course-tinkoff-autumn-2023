@@ -13,15 +13,23 @@ import java.util.stream.Stream;
 
 public class MultiThreadRenderer implements Renderer {
 
-    private static final ImageConfig CONFIG = new ImageConfig(-1.777, 1.777, -1, 1);
+    private final ImageConfig config;
+
+    private final int threads;
+
+    public MultiThreadRenderer(ImageConfig config, int threads) {
+        this.config = config;
+        this.threads = threads;
+    }
 
     @Override
     public FractalImage render(FractalImage canvas, List<Transformation> variations, int samples,
                                int iterPerSample, int symmetry) {
-        var threads = 8;
         var affines = getAffines(10);
         try (var pool = Executors.newFixedThreadPool(threads)) {
-            var tasks = Stream.generate(() -> new RunnableDrawer(samples / threads, iterPerSample, affines, variations, canvas, symmetry))
+            var tasks = Stream.generate(() -> new RunnableDrawer(
+                    samples / threads, iterPerSample,
+                            affines, variations, canvas, symmetry))
                     .limit(threads)
                     .toList();
             var futures = pool.invokeAll(tasks);
@@ -56,7 +64,7 @@ public class MultiThreadRenderer implements Renderer {
         public Void call() {
             for (int num = 0; num < samples; ++num) {
                 var rnd = ThreadLocalRandom.current();
-                drawPerSample(rnd, canvas, CONFIG, iterPerSample, symmetry, affines,  variations);
+                drawPerSample(rnd, canvas, config, iterPerSample, symmetry, affines,  variations);
             }
             return null;
         }

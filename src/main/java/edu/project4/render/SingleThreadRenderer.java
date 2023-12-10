@@ -8,7 +8,12 @@ import java.util.Random;
 
 public class SingleThreadRenderer implements Renderer {
 
-    private static final ImageConfig CONFIG = new ImageConfig(-1.777, 1.777, -1, 1);
+
+    private final ImageConfig config;
+
+    public SingleThreadRenderer(ImageConfig config) {
+        this.config = config;
+    }
 
     @Override
     public FractalImage render(FractalImage canvas, List<Transformation> variations, int samples,
@@ -16,7 +21,7 @@ public class SingleThreadRenderer implements Renderer {
         var rnd = new Random();
         var affines = getAffines(10);
         for (int num = 0; num < samples; ++num) {
-            drawPerSample(rnd, canvas, CONFIG, iterPerSample, symmetry, affines,  variations);
+            drawPerSample(rnd, canvas, config, iterPerSample, symmetry, affines,  variations);
         }
         return canvas;
     }
