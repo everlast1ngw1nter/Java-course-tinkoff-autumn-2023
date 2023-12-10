@@ -59,11 +59,12 @@ public interface Renderer {
                                List<AffineTransformation> affines, List<Transformation> variations) {
         var newX = rnd.nextDouble(cfg.xMin(), cfg.xMax());
         var newY = rnd.nextDouble(cfg.yMin(), cfg.yMax());
-        for (int step = 0; step < iterPerSample; step++) {
+        var pw = new Point(newX, newY);
+        for (int step = -20; step < iterPerSample; step++) {
             var affineTransformation = affines.get(rnd.nextInt(0, affines.size()));
             var variation = variations.get(rnd.nextInt(0, variations.size()));
-            var pw = variation.apply(affineTransformation.transform(new Point(newX, newY)));
-            if (cfg.xMin() <= pw.x() && cfg.xMax() >= pw.x()
+            pw = variation.apply(affineTransformation.transform(pw));
+            if (step > 0 && cfg.xMin() <= pw.x() && cfg.xMax() >= pw.x()
                     && cfg.yMin() <= pw.y() && cfg.yMax() >= pw.y()) {
                 drawSymmetry(canvas, pw, affineTransformation, symmetry, cfg);
             }
