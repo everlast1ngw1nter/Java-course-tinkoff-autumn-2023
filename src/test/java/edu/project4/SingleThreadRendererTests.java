@@ -4,9 +4,7 @@ import edu.project4.render.SingleThreadRenderer;
 import edu.project4.transformations.Cross;
 import edu.project4.transformations.Exponential;
 import edu.project4.transformations.Linear;
-import edu.project4.transformations.Transformation;
 import org.junit.jupiter.api.Test;
-import java.util.ArrayList;
 import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 

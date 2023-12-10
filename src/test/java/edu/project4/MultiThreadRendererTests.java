@@ -1,7 +1,6 @@
 package edu.project4;
 
 import edu.project4.render.MultiThreadRenderer;
-import edu.project4.render.SingleThreadRenderer;
 import edu.project4.transformations.Cross;
 import edu.project4.transformations.Exponential;
 import edu.project4.transformations.Linear;
