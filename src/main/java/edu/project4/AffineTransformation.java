@@ -13,10 +13,10 @@ public class AffineTransformation {
 
     private double a;
     private double b;
-    private double c;
+    private final double c;
     private double d;
     private double e;
-    private double f;
+    private final double f;
     private final int red;
     private final int green;
     private final int blue;
@@ -30,7 +30,7 @@ public class AffineTransformation {
             e = rnd.nextDouble(MIN,  MAX);
         } while (a * a + b * b + d * d + e * e >= 1 + (a * e - b * d) *  (a * e - b * d)
                     || a * a + d * d >= 1
-                    || b * b + c * c >= 1);
+                    || b * b + e * e >= 1);
         c = rnd.nextDouble(MIN,  MAX);
         f = rnd.nextDouble(MIN,  MAX);
         red = rnd.nextInt(0, MAX_RGB_COLOR);

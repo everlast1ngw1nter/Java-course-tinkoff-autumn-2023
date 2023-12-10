@@ -23,11 +23,11 @@ public record FractalImage(Pixel[][] data, int width, int height) {
         return contains((int) point.x(), (int) point.y());
     }
 
-    public Pixel pixel(int x, int y) {
+    public Pixel getPixel(int x, int y) {
         return data[x][y];
     }
 
-    public Pixel pixel(Point point) {
+    public Pixel getPixel(Point point) {
         return data[(int) point.x()][(int) point.y()];
     }
 }

@@ -17,7 +17,7 @@ public interface Renderer {
                         int iterPerSample, int symmetry);
 
     default void updatePixel(FractalImage canvas, Point pwr, AffineTransformation affineTransformation) {
-        var pixel = canvas.pixel(pwr);
+        var pixel = canvas.getPixel(pwr);
         synchronized (pixel) {
             if (pixel.getHitCount() == 0) {
                 pixel.setColor(affineTransformation.getColor());

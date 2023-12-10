@@ -10,11 +10,11 @@ import javax.imageio.ImageIO;
 public final class ImageUtils {
     private ImageUtils() {}
 
-    public static RenderedImage create(FractalImage fractalImage) {
+    private static RenderedImage create(FractalImage fractalImage) {
         var image = new BufferedImage(fractalImage.width(), fractalImage.height(), BufferedImage.TYPE_INT_RGB);
         for (var i = 0; i < fractalImage.width(); i++) {
             for (var j = 0; j < fractalImage.height(); j++) {
-                var pixel = fractalImage.pixel(i, j);
+                var pixel = fractalImage.getPixel(i, j);
                 var color = pixel.getColor();
                 if (color == null) {
                     color = new Color(0, 0, 0);
