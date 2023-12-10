@@ -15,6 +15,7 @@ import static edu.project4.PointUtils.rotate;
 public interface Renderer {
     FractalImage render(FractalImage canvas, List<Transformation> variations, int samples,
                         int iterPerSample, int symmetry);
+
     default void updatePixel(FractalImage canvas, Point pwr, AffineTransformation affineTransformation) {
         var pixel = canvas.pixel(pwr);
         synchronized (pixel) {
@@ -45,8 +46,8 @@ public interface Renderer {
         double theta2 = 0.0;
         for (int s = 0; s < symmetry; theta2 += Math.PI * 2 / symmetry, ++s) {
             var pwr = rotate(pw, theta2);
-            var x1 = canvas.width() - (int)(((cfg.XMax()-pwr.x())/(cfg.XMax()-cfg.XMin())) * canvas.width());
-            var y1 = canvas.height() - (int)(((cfg.YMax()-pwr.y())/(cfg.YMax()-cfg.YMin())) * canvas.height());
+            var x1 = canvas.width() - (int) (((cfg.xMax() - pwr.x()) / (cfg.xMax() - cfg.xMin())) * canvas.width());
+            var y1 = canvas.height() - (int) (((cfg.yMax() - pwr.y()) / (cfg.yMax() - cfg.yMin())) * canvas.height());
             pwr = new Point(x1, y1);
             if (!canvas.contains(pwr)) {
                 continue;
@@ -57,14 +58,14 @@ public interface Renderer {
 
     default void drawPerSample(Random rnd, FractalImage canvas, ImageConfig cfg, int iterPerSample, int symmetry,
                                List<AffineTransformation> affines, List<Transformation> variations) {
-        var newX = rnd.nextDouble(cfg.XMin(), cfg.XMax());
-        var newY = rnd.nextDouble(cfg.YMin(), cfg.YMax());
+        var newX = rnd.nextDouble(cfg.xMin(), cfg.xMax());
+        var newY = rnd.nextDouble(cfg.yMin(), cfg.yMax());
         for (int step = 0; step < iterPerSample; step++) {
             var affineTransformation = affines.get(rnd.nextInt(0, affines.size()));
             var variation = variations.get(rnd.nextInt(0, variations.size()));
             var pw = variation.apply(affineTransformation.transform(new Point(newX, newY)));
-            if (cfg.XMin() <= pw.x() && cfg.XMax() >= pw.x()
-                    && cfg.YMin() <= pw.y() && cfg.YMax() >= pw.y()) {
+            if (cfg.xMin() <= pw.x() && cfg.xMax() >= pw.x()
+                    && cfg.yMin() <= pw.y() && cfg.yMax() >= pw.y()) {
                 drawSymmetry(canvas, pw, affineTransformation, symmetry, cfg);
             }
         }

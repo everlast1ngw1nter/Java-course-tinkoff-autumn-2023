@@ -15,7 +15,7 @@ import java.util.ArrayList;
 
 public class Main {
     public static void main(String[] args) throws IOException {
-        var renderer = new MultiThreadRenderer(new ImageConfig(-1.777, 1.777, -1, 1), 4);
+        var renderer = new MultiThreadRenderer(new ImageConfig(-1.777, 1.777, -1, 1),  5,8);
         var fractalImage = FractalImage.create(1920, 1080);
         var variations = new ArrayList<Transformation>();
         variations.add(new Cross());
@@ -23,9 +23,9 @@ public class Main {
         variations.add(new Linear());
         variations.add(new Sinusoidal());
         variations.add(new Spherical());
-        var res = renderer.render(fractalImage, variations, 1000000, 5, 4);
+        var res = renderer.render(fractalImage, variations, 100000, 5, 4);
         var corrector = new GammaCorrection(2);
         corrector.process(res);
-        ImageUtils.save(res, new File("C:\\Users\\haier\\Desktop\\prog\\1012.jpeg").toPath(), ImageFormat.JPEG);
+        ImageUtils.save(res, new File("C:\\Users\\haier\\Desktop\\prog\\1016.jpeg").toPath(), ImageFormat.JPEG);
     }
 }

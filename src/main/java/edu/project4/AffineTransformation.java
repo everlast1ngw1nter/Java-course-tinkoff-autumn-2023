@@ -39,7 +39,7 @@ public class AffineTransformation {
     }
 
     public Point transform(Point point) {
-        return new Point(a * point.x() + b * point.y() + c,d * point.x() + e * point.y() + f);
+        return new Point(a * point.x() + b * point.y() + c, d * point.x() + e * point.y() + f);
     }
 
     public Color getColor() {

@@ -17,15 +17,17 @@ public class MultiThreadRenderer implements Renderer {
 
     private final int threads;
 
-    public MultiThreadRenderer(ImageConfig config, int threads) {
+    private final List<AffineTransformation> affines;
+
+    public MultiThreadRenderer(ImageConfig config, int affinesCount, int threads) {
         this.config = config;
         this.threads = threads;
+        this.affines = getAffines(affinesCount);
     }
 
     @Override
     public FractalImage render(FractalImage canvas, List<Transformation> variations, int samples,
                                int iterPerSample, int symmetry) {
-        var affines = getAffines(10);
         try (var pool = Executors.newFixedThreadPool(threads)) {
             var tasks = Stream.generate(() -> new RunnableDrawer(
                     samples / threads, iterPerSample,

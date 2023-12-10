@@ -11,6 +11,7 @@ public record FractalImage(Pixel[][] data, int width, int height) {
         }
         return new FractalImage(pixels, width, height);
     }
+
     public boolean contains(int x, int y) {
         return x >= 0
                 && y >= 0
@@ -19,7 +20,7 @@ public record FractalImage(Pixel[][] data, int width, int height) {
     }
 
     public boolean contains(Point point) {
-        return contains((int) point.x(),(int) point.y());
+        return contains((int) point.x(), (int) point.y());
     }
 
     public Pixel pixel(int x, int y) {

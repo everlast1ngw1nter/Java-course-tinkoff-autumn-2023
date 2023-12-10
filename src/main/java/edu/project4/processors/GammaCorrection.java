@@ -16,7 +16,7 @@ public class GammaCorrection implements ImageProcessor {
         var normals = new double[image.width()][image.height()];
         var max = 0.0;
         for (int row = 0; row < image.width(); row++) {
-            for (int col=0; col< image.height(); col++) {
+            for (int col = 0; col < image.height(); col++) {
                 if (image.pixel(row, col).getHitCount() != 0) {
                     normals[row][col] = Math.log10(image.pixel(row, col).getHitCount());
                     if (normals[row][col] > max) {
@@ -25,9 +25,9 @@ public class GammaCorrection implements ImageProcessor {
                 }
             }
         }
-        for (int row=0; row < image.width(); row++) {
-            for (int col=0; col < image.height(); col++) {
-                var color =  image.pixel(row, col).getColor();
+        for (int row = 0; row < image.width(); row++) {
+            for (int col = 0; col < image.height(); col++) {
+                var color = image.pixel(row, col).getColor();
                 if (color == null) {
                     continue;
                 }
@@ -35,7 +35,7 @@ public class GammaCorrection implements ImageProcessor {
                 var red = color.getRed() * Math.pow(normals[row][col], (1.0 / gamma));
                 var green = color.getGreen() * Math.pow(normals[row][col], (1.0 / gamma));
                 var blue = color.getBlue() * Math.pow(normals[row][col], (1.0 / gamma));
-                image.pixel(row, col).setColor(new Color((int)red, (int)green, (int)blue));
+                image.pixel(row, col).setColor(new Color((int) red, (int) green, (int) blue));
             }
         }
     }
