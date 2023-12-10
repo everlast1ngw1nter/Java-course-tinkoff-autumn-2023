@@ -15,14 +15,6 @@ import static edu.project4.PointUtils.rotate;
 public interface Renderer {
     FractalImage render(FractalImage canvas, List<Transformation> variations, int samples,
                         int iterPerSample, int symmetry);
-    default List<AffineTransformation> getAffineTransformation(int count) {
-        var affines = new ArrayList<AffineTransformation>();
-        for (var k = 0; k < count; k++) {
-            affines.add(new AffineTransformation());
-        }
-        return affines;
-    }
-
     default void updatePixel(FractalImage canvas, Point pwr, AffineTransformation affineTransformation) {
         var pixel = canvas.pixel(pwr);
         synchronized (pixel) {
