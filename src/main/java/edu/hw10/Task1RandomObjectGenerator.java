@@ -32,7 +32,8 @@ public class Task1RandomObjectGenerator {
     }
 
     private Object getRandomValue(Parameter parameter) throws Exception {
+
         var type = parameter.getType();
-        return Task1RandomCreator.getRandomParameter(type.getName());
+        return Task1RandomCreator.getRandomParameter(parameter);
     }
 }
