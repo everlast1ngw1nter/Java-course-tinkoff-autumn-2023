@@ -11,7 +11,11 @@ import java.util.Random;
 
 public class Task1RandomCreator {
 
-    private static final Random rnd = new Random();
+    private Task1RandomCreator() {
+
+    }
+
+    private static final Random RND = new Random();
 
     private static final Method[] METHODS = Task1RandomCreator.class.getDeclaredMethods();
 
@@ -28,7 +32,7 @@ public class Task1RandomCreator {
     }
 
     @RandomGenerator(typeName = "int")
-    private static int generateInt(Parameter parameter){
+    private static int generateInt(Parameter parameter) {
         var max = Integer.MAX_VALUE;
         var maxAnnotation = parameter.getAnnotation(Max.class);
         if (maxAnnotation != null) {
@@ -39,18 +43,18 @@ public class Task1RandomCreator {
         if (minAnnotation != null) {
             min = minAnnotation.value();
         }
-        return rnd.nextInt(min, max);
+        return RND.nextInt(min, max);
     }
 
     @RandomGenerator(typeName = "boolean")
     private static boolean generateBoolean(Parameter parameter) {
-        return rnd.nextBoolean();
+        return RND.nextBoolean();
     }
 
     @RandomGenerator(typeName = "java.lang.String")
     private static String generateString(Parameter parameter) {
         var notNullAnnotation = parameter.getAnnotation(NotNull.class);
-        if (rnd.nextBoolean() && notNullAnnotation == null) {
+        if (RND.nextBoolean() && notNullAnnotation == null) {
             return null;
         }
         return RandomStringGenerator.generate();
@@ -64,10 +68,10 @@ public class Task1RandomCreator {
         private static final int MIN_LENGTH = 2;
 
         public static String generate() {
-            var length = rnd.nextInt(MIN_LENGTH, MAX_LENGTH);
+            var length = RND.nextInt(MIN_LENGTH, MAX_LENGTH);
             StringBuilder builder = new StringBuilder(length);
             for (int i = 0; i < length; i++) {
-                builder.append(CHARACTERS.charAt(rnd.nextInt(CHARACTERS.length())));
+                builder.append(CHARACTERS.charAt(RND.nextInt(CHARACTERS.length())));
             }
             return builder.toString();
         }
