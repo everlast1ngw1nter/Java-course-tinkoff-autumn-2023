@@ -7,7 +7,8 @@ public class Task1RandomObjectGenerator {
 
     public <T> T nextObject(Class<T> classObj)
             throws Exception {
-        var ctor = classObj.getConstructors()[0];
+        var ctors = classObj.getConstructors();
+        var ctor = ctors[0];
         var randomValues = paramsCreator(ctor.getParameters());
         return (T) ctor.newInstance(randomValues);
     }
@@ -17,6 +18,9 @@ public class Task1RandomObjectGenerator {
         var optFabric = Arrays.stream(classObj.getDeclaredMethods())
                 .filter((elem) -> elem.getName().equals(fabricMethodName))
                 .findFirst();
+        if (optFabric.isEmpty()) {
+            throw new NoSuchMethodException("Class does not contain a method with that name");
+        }
         var fabric = optFabric.get();
         var params = fabric.getParameters();
         var randomValues = paramsCreator(params);

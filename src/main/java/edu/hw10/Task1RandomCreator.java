@@ -17,12 +17,14 @@ public class Task1RandomCreator {
 
     public static Object getRandomValue(Parameter parameter) throws Exception {
         var typeName = parameter.getType().getName();
-        var currAnn = Arrays.stream(METHODS)
+        var optCurrAnn = Arrays.stream(METHODS)
                 .filter((elem) -> elem.getAnnotation(RandomGenerator.class) != null
                         && elem.getAnnotation(RandomGenerator.class).typeName().equals(typeName))
-                .findFirst()
-                .get();
-        return currAnn.invoke(Task1RandomCreator.class, parameter);
+                .findFirst();
+        if (optCurrAnn.isPresent()) {
+            return optCurrAnn.get().invoke(Task1RandomCreator.class, parameter);
+        }
+        throw new IllegalArgumentException("Generation of a variable of this type is not supported");
     }
 
     @RandomGenerator(typeName = "int")
