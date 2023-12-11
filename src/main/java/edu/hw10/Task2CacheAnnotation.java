@@ -7,7 +7,7 @@ import java.lang.annotation.Target;
 
 public class Task2CacheAnnotation {
 
-    @Target(value = ElementType.PARAMETER)
+    @Target(value = ElementType.METHOD)
     @Retention(value = RetentionPolicy.RUNTIME)
     public @interface Cache {
         boolean persist();
