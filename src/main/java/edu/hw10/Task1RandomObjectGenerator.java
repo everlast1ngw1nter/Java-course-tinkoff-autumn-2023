@@ -26,14 +26,8 @@ public class Task1RandomObjectGenerator {
     private Object[] paramsCreator(Parameter[] params) throws Exception {
         var randomValues = new Object[params.length];
         for (var i = 0; i < params.length; i++) {
-            randomValues[i] = getRandomValue(params[i]);
+            randomValues[i] = Task1RandomCreator.getRandomValue(params[i]);
         }
         return randomValues;
-    }
-
-    private Object getRandomValue(Parameter parameter) throws Exception {
-
-        var type = parameter.getType();
-        return Task1RandomCreator.getRandomParameter(parameter);
     }
 }
