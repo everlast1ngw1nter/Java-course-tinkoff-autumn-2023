@@ -4,6 +4,7 @@ import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
+import edu.hw10.Task2CacheAnnotation.Cache;
 
 public class Task2CacheProxy {
 
@@ -24,7 +25,7 @@ public class Task2CacheProxy {
         @Override
         public Object invoke(Object proxy, Method method, Object[] args)
                 throws InvocationTargetException, IllegalAccessException {
-            var ann = method.getAnnotation(Task2CacheAnnotation.Cache.class);
+            var ann = method.getAnnotation(Cache.class);
             if (ann != null) {
                 System.out.println("Do cache");
             }
