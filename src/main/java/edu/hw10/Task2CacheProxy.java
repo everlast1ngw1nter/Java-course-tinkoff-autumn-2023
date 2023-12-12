@@ -15,6 +15,10 @@ import java.util.Map;
 
 public class Task2CacheProxy {
 
+    private Task2CacheProxy() {
+
+    }
+
     public static <T> T create(T proxiedInstance) {
         var loader = proxiedInstance.getClass().getClassLoader();
         var interfaces = proxiedInstance.getClass().getInterfaces();
