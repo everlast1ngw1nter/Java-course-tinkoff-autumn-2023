@@ -3,6 +3,9 @@ package edu.hw10;
 import org.junit.jupiter.api.Test;
 import edu.hw10.Task2CacheAnnotation.Cache;
 import org.junit.jupiter.api.Timeout;
+import java.io.File;
+import java.nio.file.Path;
+import java.util.Arrays;
 import java.util.concurrent.TimeUnit;
 
 public class Task2Tests {
@@ -24,6 +27,12 @@ public class Task2Tests {
         CachedInterface proxy = Task2CacheProxy.create(inst);
         for (var i = 0; i < 10; i++) {
             proxy.meth(12, "a");
+        }
+        var args = new Object[] {12, "a"};
+        var hash = Arrays.hashCode(args);
+        File file = Path.of(".").resolve(String.valueOf(hash)).toFile();
+        if (file.exists()) {
+            file.delete();
         }
     }
 
