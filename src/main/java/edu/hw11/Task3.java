@@ -19,16 +19,16 @@ public class Task3 {
         Class<?> newClass = new ByteBuddy()
                 .subclass(Object.class)
                 .name("FibCalculator")
-                .defineMethod("fib", long.class, Visibility.PUBLIC)
+                .defineMethod("fib", long.class, Opcodes.ACC_PUBLIC | Opcodes.ACC_STATIC)
                 .withParameters(int.class)
                 .intercept(new SumImplementation())
                 .make()
                 .load(Task3.class.getClassLoader())
                 .getLoaded();
-        var obj = newClass.getConstructor().newInstance();
+//        var obj = newClass.getConstructor().newInstance();
         var meth = newClass.getMethod("fib", int.class);
 
-        return (long) meth.invoke(obj, 4);
+        return (long) meth.invoke(null, 1);
     }
 
     public static class SumImplementation implements Implementation {
@@ -56,13 +56,35 @@ public class Task3 {
             // 1 - int arg
             // 2+ - free space
             mv.visitCode();
+            mv.visitInsn(Opcodes.LCONST_0);
+            mv.visitVarInsn(Opcodes.LSTORE, 1);
             mv.visitInsn(Opcodes.LCONST_1);
-            mv.visitVarInsn(Opcodes.LSTORE, 2);
-            mv.visitInsn(Opcodes.LCONST_1);
-            mv.visitVarInsn(Opcodes.LSTORE, 4);
-            mv.visitVarInsn(Opcodes.LLOAD, 2);
-            mv.visitVarInsn(Opcodes.LLOAD, 4);
+            mv.visitVarInsn(Opcodes.LSTORE, 3);
+            mv.visitInsn(Opcodes.LCONST_0);
+            mv.visitVarInsn(Opcodes.LSTORE, 5);
+            Label loopStart = new Label();
+            Label loopEnd = new Label();
+            mv.visitLabel(loopStart);
+            mv.visitFrame(Opcodes.F_FULL, 4, new Object[]{Opcodes.INTEGER, Opcodes.LONG, Opcodes.LONG, Opcodes.LONG}, 0,  null);
+
+            mv.visitVarInsn(Opcodes.LLOAD, 3);
+            mv.visitVarInsn(Opcodes.LLOAD, 1);
             mv.visitInsn(Opcodes.LADD);
+            mv.visitVarInsn(Opcodes.LSTORE, 5);
+            mv.visitIincInsn(0, -1);
+            mv.visitVarInsn(Opcodes.ILOAD, 0);
+            mv.visitVarInsn(Opcodes.LLOAD, 5);
+            mv.visitVarInsn(Opcodes.LLOAD, 3);
+            mv.visitVarInsn(Opcodes.LSTORE, 3);
+            mv.visitVarInsn(Opcodes.LSTORE, 1);
+           // mv.visitFrame(Opcodes.F_FULL, 4, new Object[]{Opcodes.INTEGER, Opcodes.LONG, Opcodes.LONG, Opcodes.LONG}, 2,  new Object[]{Opcodes.INTEGER, Opcodes.INTEGER});
+
+//            mv.visitFrame(Opcodes.F_FULL, 4, new Object[]{Opcodes.INTEGER, Opcodes.LONG, Opcodes.LONG, Opcodes.LONG}, 0,  null);
+            mv.visitJumpInsn(Opcodes.IFEQ, loopStart);
+            mv.visitFrame(Opcodes.F_FULL, 4, new Object[]{Opcodes.INTEGER, Opcodes.LONG, Opcodes.LONG, Opcodes.LONG}, 0,  null);
+            mv.visitLabel(loopEnd);
+
+            mv.visitVarInsn(Opcodes.LLOAD, 5);
             mv.visitInsn(Opcodes.LRETURN);
             mv.visitEnd();
             return new Size( 10, 10);
