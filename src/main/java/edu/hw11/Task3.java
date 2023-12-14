@@ -52,13 +52,16 @@ public class Task3 {
                 throw new IllegalArgumentException(methodDescription + " must return int");
             }
             // long занимает 2 слота
+            // 0 - this
+            // 1 - int arg
+            // 2+ - free space
             mv.visitCode();
             mv.visitInsn(Opcodes.LCONST_1);
-            mv.visitVarInsn(Opcodes.LSTORE, 0);
-            mv.visitInsn(Opcodes.LCONST_1);
             mv.visitVarInsn(Opcodes.LSTORE, 2);
-            mv.visitVarInsn(Opcodes.LLOAD, 0);
+            mv.visitInsn(Opcodes.LCONST_1);
+            mv.visitVarInsn(Opcodes.LSTORE, 4);
             mv.visitVarInsn(Opcodes.LLOAD, 2);
+            mv.visitVarInsn(Opcodes.LLOAD, 4);
             mv.visitInsn(Opcodes.LADD);
             mv.visitInsn(Opcodes.LRETURN);
             mv.visitEnd();
