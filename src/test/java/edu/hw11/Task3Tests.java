@@ -1,6 +1,5 @@
 package edu.hw11;
 
-import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 import java.lang.reflect.InvocationTargetException;
@@ -19,9 +18,9 @@ public class Task3Tests {
             "25, 75025",
     })
     void generateNewClass(int input, long expected)
-            throws InstantiationException, IllegalAccessException, NoSuchMethodException, InvocationTargetException {
-        var res = Task3.generateNewClass();
-        var fibRes = res.invoke(null, input);
+            throws IllegalAccessException, NoSuchMethodException, InvocationTargetException {
+        var method = Task3.generateFibClass().getMethod("fib", int.class);
+        var fibRes = method.invoke(null, input);
         assertEquals(expected, fibRes);
     }
 }

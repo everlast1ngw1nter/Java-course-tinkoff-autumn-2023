@@ -9,13 +9,14 @@ import net.bytebuddy.jar.asm.Label;
 import net.bytebuddy.jar.asm.MethodVisitor;
 import org.jetbrains.annotations.NotNull;
 import org.objectweb.asm.Opcodes;
-import java.lang.reflect.Method;
 
 public class Task3 {
 
-    public static Method generateNewClass()
-            throws NoSuchMethodException {
-        Class<?> newClass = new ByteBuddy()
+    private Task3() {
+    }
+
+    public static Class<?> generateFibClass() {
+        return new ByteBuddy()
                 .subclass(Object.class)
                 .name("FibCalculator")
                 .defineMethod("fib", long.class, Opcodes.ACC_PUBLIC | Opcodes.ACC_STATIC)
@@ -24,7 +25,6 @@ public class Task3 {
                 .make()
                 .load(Task3.class.getClassLoader())
                 .getLoaded();
-        return newClass.getMethod("fib", int.class);
     }
 
     public static class FibImplementation implements Implementation {
@@ -42,7 +42,9 @@ public class Task3 {
 
     public static class Fibonacci implements ByteCodeAppender {
         @Override
-        public @NotNull Size apply(MethodVisitor methodVisitor, Implementation.@NotNull Context context,
+        @SuppressWarnings("MagicNumber")
+        public @NotNull Size apply(MethodVisitor methodVisitor,
+                                   Implementation.@NotNull Context context,
                                    @NotNull MethodDescription methodDescription) {
             methodVisitor.visitCode();
             Label loopStart = new Label();
@@ -57,7 +59,8 @@ public class Task3 {
             methodVisitor.visitVarInsn(Opcodes.ILOAD, 0);
             methodVisitor.visitJumpInsn(Opcodes.IFEQ, loopEnd);
             methodVisitor.visitLabel(loopStart);
-            methodVisitor.visitFrame(Opcodes.F_FULL, 4, new Object[]{Opcodes.INTEGER, Opcodes.LONG, Opcodes.LONG, Opcodes.LONG}, 0,  null);
+            methodVisitor.visitFrame(Opcodes.F_FULL, 4,
+                    new Object[]{Opcodes.INTEGER, Opcodes.LONG, Opcodes.LONG, Opcodes.LONG}, 0,  null);
             methodVisitor.visitVarInsn(Opcodes.LLOAD, 3);
             methodVisitor.visitVarInsn(Opcodes.LLOAD, 1);
             methodVisitor.visitInsn(Opcodes.LADD);
@@ -69,12 +72,13 @@ public class Task3 {
             methodVisitor.visitVarInsn(Opcodes.LSTORE, 1);
             methodVisitor.visitVarInsn(Opcodes.LSTORE, 3);
             methodVisitor.visitJumpInsn(Opcodes.IFNE, loopStart);
-            methodVisitor.visitFrame(Opcodes.F_FULL, 4, new Object[]{Opcodes.INTEGER, Opcodes.LONG, Opcodes.LONG, Opcodes.LONG}, 0,  null);
+            methodVisitor.visitFrame(Opcodes.F_FULL, 4,
+                    new Object[]{Opcodes.INTEGER, Opcodes.LONG, Opcodes.LONG, Opcodes.LONG}, 0,  null);
             methodVisitor.visitLabel(loopEnd);
             methodVisitor.visitVarInsn(Opcodes.LLOAD, 5);
             methodVisitor.visitInsn(Opcodes.LRETURN);
             methodVisitor.visitEnd();
-            return new Size( 10, 10);
+            return new Size(5, 7);
         }
     }
 }
