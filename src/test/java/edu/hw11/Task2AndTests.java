@@ -2,8 +2,7 @@ package edu.hw11;
 
 import net.bytebuddy.ByteBuddy;
 import net.bytebuddy.agent.ByteBuddyAgent;
-import net.bytebuddy.asm.Advice;
-import net.bytebuddy.description.type.TypeDescription;
+import net.bytebuddy.dynamic.VisibilityBridgeStrategy;
 import net.bytebuddy.dynamic.loading.ClassReloadingStrategy;
 import net.bytebuddy.implementation.MethodDelegation;
 import org.junit.jupiter.api.Test;
@@ -16,6 +15,7 @@ public class Task2AndTests {
     void redefineMethodTest() {
         ByteBuddyAgent.install();
         new ByteBuddy()
+                .with(VisibilityBridgeStrategy.Default.NEVER)
                 .redefine(ArithmeticUtils.class)
                 .method(named("sum"))
                 .intercept(MethodDelegation.to(ArithmeticByteBuddy.class))
