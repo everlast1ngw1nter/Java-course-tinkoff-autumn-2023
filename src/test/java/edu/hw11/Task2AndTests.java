@@ -21,18 +21,18 @@ public class Task2AndTests {
                 .intercept(MethodDelegation.to(ArithmeticByteBuddy.class))
                 .make()
                 .load(ArithmeticUtils.class.getClassLoader(), ClassReloadingStrategy.fromInstalledAgent());
-        assertEquals(new ArithmeticUtils().sum(3,8), 24);
+        assertEquals(ArithmeticUtils.sum(3,8), 24);
 
     }
 
-    class ArithmeticByteBuddy {
+    static class ArithmeticByteBuddy {
         public static int sum(int a, int b) {
             return a * b;
         }
     }
 
-    class ArithmeticUtils {
-        public int sum(int a, int b) {
+    static class ArithmeticUtils {
+        public static int sum(int a, int b) {
             return a + b;
         }
     }
