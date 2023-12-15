@@ -189,7 +189,7 @@
                     </executions>
                     <configuration>
                         <excludes>
-                            <exclude>**/*Task2AndTests.class</exclude>
+                            <exclude>edu/hw11/Task2AndTests.class</exclude>
                         </excludes>
                     </configuration>
                 </plugin>
