@@ -20,7 +20,7 @@ public class Task2AndTests {
                 .method(named("sum"))
                 .intercept(MethodDelegation.to(ArithmeticByteBuddy.class))
                 .make()
-                .load(ArithmeticUtils.class.getClassLoader(), ClassReloadingStrategy.fromInstalledAgent());
+                .load(getClass().getClassLoader(), ClassReloadingStrategy.fromInstalledAgent());
         assertEquals(ArithmeticUtils.sum(3,8), 24);
 
     }
