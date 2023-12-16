@@ -22,7 +22,8 @@ import java.util.function.Function;
 
 @State(Scope.Thread)
 public class ReflectionBenchmark {
-    public static void main(String[] args) throws RunnerException {
+    @SuppressWarnings("MagicNumber")
+    public static void runBenchmark() throws RunnerException {
         Options options = new OptionsBuilder()
                 .include(ReflectionBenchmark.class.getSimpleName())
                 .shouldFailOnError(true)
@@ -36,11 +37,7 @@ public class ReflectionBenchmark {
                 .measurementIterations(1)
                 .measurementTime(TimeValue.seconds(5))
                 .build();
-
         new Runner(options).run();
-    }
-
-    record Student(String name, String surname) {
     }
 
     private Student student;
@@ -48,8 +45,8 @@ public class ReflectionBenchmark {
     private MethodHandle methodHandle;
     private Function<Student, String> metafactory;
 
-
     @Setup
+    @SuppressWarnings("MultipleStringLiterals")
     public void setup() throws Throwable {
         student = new Student("Alexander", "Biryukov");
         method = Student.class.getMethod("name");
@@ -88,5 +85,8 @@ public class ReflectionBenchmark {
     public void lambdaMetafactory(Blackhole bh) {
         String name = metafactory.apply(student);
         bh.consume(name);
+    }
+
+    record Student(String name, String surname) {
     }
 }
