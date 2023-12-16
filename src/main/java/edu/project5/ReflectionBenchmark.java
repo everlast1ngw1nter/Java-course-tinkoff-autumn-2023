@@ -11,8 +11,10 @@ import org.openjdk.jmh.runner.RunnerException;
 import org.openjdk.jmh.runner.options.Options;
 import org.openjdk.jmh.runner.options.OptionsBuilder;
 import org.openjdk.jmh.runner.options.TimeValue;
+import java.lang.invoke.LambdaMetafactory;
 import java.lang.invoke.MethodHandle;
 import java.lang.invoke.MethodHandles;
+import java.lang.invoke.MethodType;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.concurrent.TimeUnit;
@@ -44,7 +46,6 @@ public class ReflectionBenchmark {
     private Student student;
     private Method method;
     private MethodHandle methodHandle;
-
     private Function<Student, String> metafactory;
 
 
@@ -53,7 +54,15 @@ public class ReflectionBenchmark {
         student = new Student("Alexander", "Biryukov");
         method = Student.class.getMethod("name");
         var lookup = MethodHandles.lookup();
-        methodHandle = lookup.findGetter(Student.class, "name", String.class);
+        methodHandle = lookup.findVirtual(Student.class, "name", MethodType.methodType(String.class));
+        var site = LambdaMetafactory.metafactory(
+                lookup,
+                "apply",
+                MethodType.methodType(Function.class),
+                MethodType.methodType(Object.class, Object.class),
+                methodHandle,
+                methodHandle.type());
+        metafactory = (Function<Student, String>) site.getTarget().invokeExact();
     }
 
     @Benchmark
@@ -63,7 +72,8 @@ public class ReflectionBenchmark {
     }
 
     @Benchmark
-    public void reflection(Blackhole bh) throws InvocationTargetException, IllegalAccessException {
+    public void reflection(Blackhole bh)
+            throws IllegalAccessException, InvocationTargetException {
         String name = (String) method.invoke(student, new Object[]{});
         bh.consume(name);
     }
