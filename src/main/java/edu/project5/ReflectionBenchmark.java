@@ -44,7 +44,7 @@ public class ReflectionBenchmark {
     @Setup
     public void setup() throws NoSuchMethodException {
         student = new Student("Alexander", "Biryukov");
-//        method = ...;
+        method = Student.class.getMethod("name");
     }
 
     @Benchmark
@@ -55,6 +55,7 @@ public class ReflectionBenchmark {
 
     @Benchmark
     public void reflection(Blackhole bh) throws InvocationTargetException, IllegalAccessException {
-        // TODO
+        String name = (String) method.invoke(student, new Object[]{});
+        bh.consume(name);
     }
 }
