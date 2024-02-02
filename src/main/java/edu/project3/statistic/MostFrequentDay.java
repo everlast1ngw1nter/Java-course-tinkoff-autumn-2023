@@ -23,6 +23,7 @@ public class MostFrequentDay extends StatisticMaker<LocalDate> {
         }
     }
 
+    @Override
     public LocalDate getStatistic() {
         return top.entrySet()
                 .stream()

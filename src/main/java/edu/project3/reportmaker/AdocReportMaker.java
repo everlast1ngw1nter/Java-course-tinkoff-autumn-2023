@@ -39,6 +39,7 @@ public class AdocReportMaker implements ReportMaker {
         result.add("|====");
     }
 
+    @Override
     public List<String> makeReport() {
         for (var elem : stats) {
             result.add("==== " + elem.mainHeader + '\n');

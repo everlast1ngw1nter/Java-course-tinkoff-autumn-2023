@@ -28,6 +28,7 @@ public class PopularStatus extends StatisticMaker<Map<Integer, Integer>> {
         }
     }
 
+    @Override
     public Map<Integer, Integer> getStatistic() {
         return top.entrySet()
                 .stream()

@@ -27,6 +27,7 @@ public class MostPopularIP extends StatisticMaker<Map<String, Integer>> {
         }
     }
 
+    @Override
     public Map<String, Integer> getStatistic() {
         return top.entrySet()
                 .stream()

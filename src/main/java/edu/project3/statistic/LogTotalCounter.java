@@ -16,6 +16,7 @@ public class LogTotalCounter extends StatisticMaker<Long> {
         counter++;
     }
 
+    @Override
     public Long getStatistic() {
         return counter;
     }

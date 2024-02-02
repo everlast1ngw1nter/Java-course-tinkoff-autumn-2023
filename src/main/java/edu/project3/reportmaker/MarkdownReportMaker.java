@@ -32,6 +32,7 @@ public class MarkdownReportMaker implements ReportMaker {
         result.add(Strings.EMPTY);
     }
 
+    @Override
     public List<String> makeReport() {
         for (var elem : stats) {
             result.add("#### " + elem.mainHeader + '\n');

@@ -18,6 +18,7 @@ public class AverageAnswerCounter extends StatisticMaker<Long> {
         counter++;
     }
 
+    @Override
     public Long getStatistic() {
         if (counter == 0) {
             return 0L;
